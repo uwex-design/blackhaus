@@ -1,30 +1,31 @@
-# Le Bistrô - Website
+# Kiko Castello Branco - Escritório de Arquitetura
 
-Este é o repositório oficial do website do Le Bistrô, desenvolvido pela UWEX Design.
+Este é o repositório oficial do website do Kiko Castello Branco, escritório de arquitetura especializado em projetos residenciais, comerciais e corporativos.
 
 ## Sobre o Projeto
 
-O Le Bistrô é um restaurante que oferece uma experiência gastronômica única, combinando a tradição francesa com toques contemporâneos. Este website foi desenvolvido para apresentar o estabelecimento, seu cardápio e proporcionar uma experiência digital que reflete a elegância e sofisticação do restaurante.
+O site apresenta o portfólio, filosofia e serviços do escritório Kiko Castello Branco, destacando projetos autorais, soluções inovadoras e o compromisso com a excelência em arquitetura e design de interiores.
 
 ## Desenvolvimento
 
-Este projeto foi desenvolvido pela [UWEX Design](https://uwex.com.br), uma agência especializada em desenvolvimento web e design digital.
+Este projeto foi desenvolvido pela [UWEX Design](https://uwex.com.br), agência especializada em desenvolvimento web e design digital.
 
 ## Tecnologias Utilizadas
 
 - Webflow
-- GSAP
 - HTML5
-- CSS3
+- CSS3 / SCSS
 - JavaScript
+- GSAP
+- Lenis
 
 ## Contato
 
-Para mais informações sobre o projeto, entre em contato com a UWEX Design:
+Para mais informações sobre o escritório Kiko Castello Branco:
 
-- Website: [uwex.design](https://uwex.com.br)
-- Email: fabio@uwex.com.br
+- Website: [kikocastellobranco.com.br](https://kikocastellobranco.com.br)
+- Email: contato@kikocastellobranco.com.br
 
 ## Licença
 
-Todos os direitos reservados © 2025 Le Bistrô e UWEX Design.
+Todos os direitos reservados © 2025 Kiko Castello Branco e UWEX Design.
