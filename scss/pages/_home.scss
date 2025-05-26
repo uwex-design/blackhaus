@@ -1,0 +1,27 @@
+@use "../mixins" as *;
+
+.nav_component {
+	&.sticky {
+		padding-top: 1rem;
+	}
+	&.light {
+		.nav_logo {
+			color: #000;
+		}
+		.nav_menu_link,
+		.nav_actions_item,
+		.dropdown1_component {
+			color: #000;
+		}
+	}
+	&.dark {
+		.nav_logo {
+			color: #d3d1d1;
+		}
+		.nav_menu_link,
+		.nav_actions_item,
+		.dropdown1_component {
+			color: #ded9ce;
+		}
+	}
+}
