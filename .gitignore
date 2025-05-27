@@ -1,6 +1,7 @@
 # Arquivos do sistema
 .DS_Store
 Thumbs.db
+.cursor/
 
 # Arquivos de ambiente
 .env
