@@ -7,7 +7,7 @@ const lenis = new Lenis({
 	gestureOrientation: "vertical", // orientação dos gestos
 	smoothWheel: true, // suaviza o scroll do mouse
 	wheelMultiplier: 1, // multiplicador da velocidade do scroll
-	smoothTouch: false, // desativa suavização em touch para melhor performance
+	smoothTouch: true, // ativa suavização em touch
 	touchMultiplier: 2, // multiplicador da velocidade do touch
 	infinite: false, // desativa scroll infinito
 	autoRaf: false, // Desativamos autoRaf para ter mais controle
@@ -55,7 +55,8 @@ if (heroSection && heroTitle) {
 		scrollTimeout = setTimeout(checkScroll, 10);
 	});
 
-	// Adicionar evento de wheel para detectar a primeira tentativa de rolagem
+	// Adicionar eventos para detectar a primeira tentativa de rolagem
+	// Para mouse wheel
 	window.addEventListener(
 		"wheel",
 		() => {
@@ -64,7 +65,28 @@ if (heroSection && heroTitle) {
 			}
 		},
 		{ once: true }
-	); // once: true garante que o evento só será disparado uma vez
+	);
+
+	// Para touch
+	window.addEventListener(
+		"touchstart",
+		() => {
+			if (!hasScrolled) {
+				checkScroll();
+			}
+		},
+		{ once: true }
+	);
+
+	window.addEventListener(
+		"touchmove",
+		() => {
+			if (!hasScrolled) {
+				checkScroll();
+			}
+		},
+		{ once: true }
+	);
 }
 
 // Loop de animação do Lenis
