@@ -29,8 +29,10 @@ const checkSectionColor = () => {
 	});
 };
 
-// Adicionar listener para scroll
+// Adicionar listeners para scroll e touch
 window.addEventListener("scroll", checkSectionColor);
+window.addEventListener("touchmove", checkSectionColor);
+window.addEventListener("touchend", checkSectionColor);
 
 // Executar verificação inicial
 checkSectionColor();
