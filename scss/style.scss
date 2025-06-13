@@ -1,5 +1,6 @@
 @use "mixins" as *;
 @use "pages/home";
+@use "pages/project";
 
 .nav_component {
 	&.sticky {
