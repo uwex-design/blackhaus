@@ -25,8 +25,8 @@ class BlackHausGallery {
 			// Durações em segundos
 			durations: {
 				toolbar: 0.4,
-				viewport: 0.6,
-				backdrop: 0.8,
+				viewport: 1,
+				backdrop: 1,
 			},
 			// Easings
 			easings: {
@@ -45,13 +45,19 @@ class BlackHausGallery {
 
 		// Configurações do Fancybox
 		fancybox: {
+			mainStyle: {
+				"--f-button-border-radius": "0",
+				"--f-arrow-border-radius": "0",
+				"--f-arrow-bg": "transparent",
+				"--f-button-bg": "transparent",
+			},
 			hideScrollbar: true,
 			animated: false,
 			showClass: false,
 			hideClass: false,
-			zoom: false,
+			backdropClick: false, // Desativa o clique fora para fechar
+			zoomEffect: false,
 			Carousel: {
-				zoom: false,
 				transition: "fade",
 				Toolbar: {
 					display: {
@@ -62,6 +68,12 @@ class BlackHausGallery {
 				},
 				Thumbs: {
 					showOnStart: false,
+					type: "classic",
+				},
+				Zoomable: {
+					Panzoom: {
+						maxScale: 0,
+					},
 				},
 			},
 		},
@@ -88,8 +100,45 @@ class BlackHausGallery {
 	 * Inicializa a galeria
 	 */
 	init() {
+		this.autoPopulateDataSrc();
 		this.setupEventListeners();
 		this.setupFancybox();
+	}
+
+	/**
+	 * Preenche automaticamente o data-src dos elementos com data-fancybox
+	 * usando a URL da imagem filha
+	 * @param {Element|Document} container - Container para buscar elementos (padrão: document)
+	 */
+	autoPopulateDataSrc(container = document) {
+		const fancyboxElements = container.querySelectorAll("[data-fancybox]");
+
+		fancyboxElements.forEach((element) => {
+			this.populateElementDataSrc(element);
+		});
+	}
+
+	/**
+	 * Preenche o data-src de um elemento específico
+	 * @param {Element} element - Elemento com data-fancybox
+	 */
+	populateElementDataSrc(element) {
+		// Se já tem data-src, não sobrescreve
+		if (element.hasAttribute("data-src")) {
+			return;
+		}
+
+		// Busca por imagem filha
+		const img = element.querySelector("img");
+
+		if (img) {
+			// Prioriza data-src da imagem, depois src
+			const imageSrc = img.getAttribute("data-src") || img.getAttribute("src");
+
+			if (imageSrc) {
+				element.setAttribute("data-src", imageSrc);
+			}
+		}
 	}
 
 	/**
@@ -648,6 +697,21 @@ class BlackHausGallery {
 	}
 
 	/**
+	 * Método público para preencher data-src manualmente
+	 * Útil para conteúdo adicionado dinamicamente
+	 * @param {Element|Document} container - Container para buscar elementos
+	 * @returns {number} Número de elementos processados
+	 */
+	refreshDataSrc(container = document) {
+		const elementsBefore = container.querySelectorAll("[data-fancybox]").length;
+		this.autoPopulateDataSrc(container);
+		const elementsAfter = container.querySelectorAll("[data-fancybox][data-src]").length;
+
+		console.log(`[BlackHaus Gallery] Processados ${elementsBefore} elementos, ${elementsAfter} com data-src`);
+		return elementsBefore;
+	}
+
+	/**
 	 * Destrói a instância da galeria
 	 */
 	destroy() {
@@ -664,4 +728,12 @@ class BlackHausGallery {
 // Inicializar a galeria quando o DOM estiver pronto
 document.addEventListener("DOMContentLoaded", () => {
 	window.blackHausGallery = new BlackHausGallery();
+});
+
+// Adiciona/remove classe ao clicar em elementos com data-thumbs-action
+document.addEventListener("click", (e) => {
+	const thumbsAction = e.target.closest("[data-thumbs-action]");
+	if (thumbsAction) {
+		thumbsAction.classList.toggle("is-active");
+	}
 });

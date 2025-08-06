@@ -4,7 +4,7 @@
 	--f-button-border: 0;
 	--f-button-border-radius: 0;
 	--f-button-color: #374151;
-	--f-button-bg: #f8f8f8;
+	--f-button-bg: transparent !important;
 	--f-button-shadow: none;
 	--f-button-transition: all 0.15s ease;
 	--f-button-transform: none;
@@ -434,7 +434,7 @@ picture.f-panzoom__content img {
 	--f-button-svg-height: var(--f-arrow-svg-height, 24px);
 	--f-button-svg-stroke-width: var(--f-arrow-svg-stroke-width, 1.75);
 	--f-button-border-radius: var(--f-arrow-border-radius, unset);
-	--f-button-bg: var(--f-arrow-bg, transparent);
+	--f-button-bg: transparent;
 	--f-button-hover-bg: var(--f-arrow-hover-bg, var(--f-arrow-bg));
 	--f-button-active-bg: var(--f-arrow-active-bg, var(--f-arrow-hover-bg));
 	--f-button-shadow: var(--f-arrow-shadow);
@@ -605,7 +605,7 @@ picture.f-panzoom__content img {
 	background: var(--f-thumbs-bg);
 	-webkit-tap-highlight-color: transparent;
 	user-select: none;
-	transition: max-height 0.3s ease, max-width 0.3s ease;
+	transition: max-height 0.8s ease, max-width 0.8s ease;
 	z-index: var(--f-thumbs-z-index);
 	overflow: hidden;
 }
@@ -886,7 +886,7 @@ html.with-fancybox body.hide-scrollbar {
 	--f-button-outline-width: 1px;
 	--f-button-outline-color: rgba(255, 255, 255, 0.75);
 	--f-button-outline-offset: 0px;
-	--f-button-bg: rgba(54, 54, 54, 0.75);
+	--f-button-bg: transparent;
 	--f-button-border: 0;
 	--f-button-border-radius: 0;
 	--f-button-shadow: none;
@@ -905,7 +905,7 @@ html.with-fancybox body.hide-scrollbar {
 	--f-arrow-svg-height: 24px;
 	--f-arrow-svg-stroke-width: 2;
 	--f-arrow-border-radius: 50%;
-	--f-arrow-bg: rgba(54, 54, 54, 0.65);
+	--f-arrow-bg: transparent;
 	--f-arrow-color: #ddd;
 	--f-arrow-hover-color: #fff;
 	--f-thumbs-margin: 0px;
@@ -959,7 +959,7 @@ html.with-fancybox body.hide-scrollbar {
 	--f-button-color: #333;
 	--f-button-hover-color: #000;
 	--f-button-outline-color: rgba(0, 0, 0, 0.85);
-	--f-button-bg: rgba(255, 255, 255, 0.85);
+	--f-button-bg: transparent;
 	--f-button-svg-stroke-width: 1.3;
 	--f-button-svg-filter: none;
 	--f-arrow-bg: rgba(255, 255, 255, 0.85);
@@ -1064,6 +1064,9 @@ html.with-fancybox body.hide-scrollbar {
 	z-index: 10;
 	overflow-y: visible;
 	overflow-x: clip;
+	/* Configuração personalizada da duração da transição fade */
+	--f-transition-duration: 0.6s; /* Padrão: 0.2s - Aumentado para 0.6s */
+	--f-transition-easing: ease-out; /* Easing mais suave */
 }
 .fancybox__carousel.is-vertical {
 	--f-carousel-slide-height: 100%;

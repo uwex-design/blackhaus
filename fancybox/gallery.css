@@ -77,9 +77,24 @@ h2 {
 }
 
 .fancybox__viewport {
+	/* padding: 32px 0; */
 	will-change: transform, opacity;
+}
+.fancybox__slide {
+	padding: 24px 0;
 }
 
 .f-carousel__toolbar {
 	will-change: transform, opacity;
+	height: 100%;
+}
+.f-carousel__toolbar__column.is-middle {
+	align-content: flex-end;
+	padding-bottom: 12px;
+}
+[data-thumbs-action] {
+	transition: transform 0.5s ease;
+}
+[data-thumbs-action].is-active {
+	transform: rotate(180deg);
 }
