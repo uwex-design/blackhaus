@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Galeria com Lightbox</title>
+		<link rel="stylesheet" href="gallery.css" />
+	</head>
+	<body>
+		<!-- Exemplo de uso da galeria -->
+		<div class="container">
+			<h1>Galeria de Exemplo</h1>
+
+			<!-- Galeria 1 -->
+			<div class="gallery">
+				<h2>Galeria Natureza</h2>
+				<div class="gallery-grid">
+					<div class="gallery-grid_item" gallery-name="natureza">
+						<img src="https://placehold.co/1920x1080" alt="Imagem 1" />
+					</div>
+					<div class="gallery-grid_item" gallery-name="natureza">
+						<img src="https://placehold.co/1920x1080" alt="Imagem 2" />
+					</div>
+					<div class="gallery-grid_item" gallery-name="natureza">
+						<img src="https://placehold.co/1920x1080" alt="Imagem 3 Bruno" />
+					</div>
+					<div class="gallery-grid_item" gallery-name="natureza">
+						<img src="https://placehold.co/1080x1920" alt="Imagem 4" />
+					</div>
+				</div>
+			</div>
+
+			<!-- Galeria 2 -->
+			<div class="gallery">
+				<h2>Galeria Cidade</h2>
+				<div class="gallery-grid">
+					<div class="gallery-grid_item" gallery-name="cidade">
+						<img src="https://placehold.co/1920x1080" alt="Imagem 5" />
+					</div>
+					<div class="gallery-grid_item" gallery-name="cidade">
+						<img src="https://placehold.co/600x400" alt="Imagem 6" />
+					</div>
+					<div class="gallery-grid_item" gallery-name="cidade">
+						<img src="https://placehold.co/1920x1080" alt="Imagem 7" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Lightbox -->
+		<div class="lightbox" id="lightbox">
+			<div class="lightbox-backdrop"></div>
+			<div class="lightbox-content">
+				<div class="lightbox-image-container">
+					<div class="lightbox-mask">
+						<img class="lightbox-image" src="" alt="" />
+					</div>
+				</div>
+				<button class="lightbox-close">&times;</button>
+				<button class="lightbox-prev">&#8249;</button>
+				<button class="lightbox-next">&#8250;</button>
+				<div class="lightbox-counter"><span class="current">1</span> / <span class="total">1</span></div>
+			</div>
+		</div>
+
+		<!-- Scripts -->
+		<script src="../js/lib/gsap.min.js"></script>
+		<script src="gallery.js"></script>
+	</body>
+</html>
