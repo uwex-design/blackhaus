@@ -13,6 +13,7 @@ class BlackHausGallery {
 			dialog: ".fancybox__dialog",
 			viewport: ".fancybox__viewport",
 			toolbar: ".f-carousel__toolbar",
+			thumbs: ".f-thumbs",
 			backdrop: ".fancybox__backdrop",
 			nextButton: "[data-carousel-go-next], .f-button.is-arrow.is-next",
 			prevButton: "[data-carousel-go-prev], .f-button.is-arrow.is-prev",
@@ -50,6 +51,7 @@ class BlackHausGallery {
 				"--f-arrow-border-radius": "0",
 				"--f-arrow-bg": "transparent",
 				"--f-button-bg": "transparent",
+				"--fancybox-backdrop-bg": "rgba(0, 0, 0, 0.95)",
 			},
 			hideScrollbar: true,
 			animated: false,
@@ -57,6 +59,7 @@ class BlackHausGallery {
 			hideClass: false,
 			backdropClick: false, // Desativa o clique fora para fechar
 			zoomEffect: false,
+			placeFocusBack: false, // Desabilita scroll automático padrão
 			Carousel: {
 				transition: "fade",
 				Toolbar: {
@@ -157,6 +160,7 @@ class BlackHausGallery {
 			dialog: document.querySelector(BlackHausGallery.CONFIG.selectors.dialog),
 			viewport: document.querySelector(BlackHausGallery.CONFIG.selectors.viewport),
 			toolbar: document.querySelector(BlackHausGallery.CONFIG.selectors.toolbar),
+			thumbs: document.querySelector(BlackHausGallery.CONFIG.selectors.thumbs),
 			backdrop: document.querySelector(BlackHausGallery.CONFIG.selectors.backdrop),
 			nextButton: document.querySelector(BlackHausGallery.CONFIG.selectors.nextButton),
 			prevButton: document.querySelector(BlackHausGallery.CONFIG.selectors.prevButton),
@@ -355,8 +359,8 @@ class BlackHausGallery {
 			onComplete: () => this.onCloseAnimationComplete(fancyboxInstance),
 		});
 
-		// 1. Fade-out dos controles
-		timeline.to([elements.toolbar, elements.nextButton, elements.prevButton], {
+		// 1. Fade-out dos controles (incluindo thumbs)
+		timeline.to([elements.toolbar, elements.thumbs, elements.nextButton, elements.prevButton], {
 			duration: durations.toolbar,
 			opacity: 0,
 			visibility: "hidden",
@@ -396,7 +400,116 @@ class BlackHausGallery {
 		this.clearElementsCache();
 
 		if (fancyboxInstance) {
+			// Fazer scroll suave para a imagem ativa antes de fechar
+			this.scrollToActiveTrigger(fancyboxInstance);
 			fancyboxInstance.close();
+		}
+	}
+
+	/**
+	 * Faz scroll suave até o elemento que disparou o fancybox (slide ativo)
+	 * @param {Object} fancyboxInstance - Instância do Fancybox
+	 */
+	scrollToActiveTrigger(fancyboxInstance) {
+		try {
+			// Obter o elemento que disparou o fancybox (slide ativo)
+			const triggerElement = this.getActiveTriggerElement(fancyboxInstance);
+
+			if (!triggerElement) {
+				console.warn("Elemento trigger não encontrado para o slide ativo");
+				return;
+			}
+
+			// Verificar se o elemento está visível no viewport
+			if (this.isElementInViewport(triggerElement)) {
+				console.log("Elemento já está visível, não é necessário scroll");
+				return;
+			}
+
+			// Log para debug
+			const slideIndex = fancyboxInstance?.getPageIndex?.() || 0;
+			console.log(`Fazendo scroll para o slide ativo (índice: ${slideIndex})`);
+
+			// Calcular posição do elemento com offset
+			const elementRect = triggerElement.getBoundingClientRect();
+			const offsetTop = window.pageYOffset + elementRect.top - 100; // Offset de 100px do topo
+
+			// Scroll suave usando scrollTo nativo
+			window.scrollTo({
+				top: offsetTop,
+				behavior: "smooth",
+			});
+		} catch (error) {
+			console.warn("Erro ao fazer scroll para elemento ativo:", error);
+		}
+	}
+
+	/**
+	 * Obtém o elemento que disparou o fancybox atual (slide ativo)
+	 * @param {Object} fancyboxInstance - Instância do Fancybox
+	 * @returns {HTMLElement|null} Elemento que disparou o fancybox
+	 */
+	getActiveTriggerElement(fancyboxInstance) {
+		try {
+			// Obter o slide que está atualmente ativo/visível
+			const currentSlide = fancyboxInstance?.getSlide();
+
+			// Fallback: se getSlide() não funcionar, usar getPage()
+			const fallbackSlide = currentSlide || fancyboxInstance?.getPage()?.slides[0];
+
+			if (currentSlide || fallbackSlide) {
+				const slide = currentSlide || fallbackSlide;
+
+				// Primeiro tentar triggerEl (elemento específico que disparou)
+				if (slide.triggerEl) {
+					return slide.triggerEl;
+				}
+
+				// Fallback: procurar por data-fancybox com mesmo grupo usando o índice do slide ativo
+				const fancyboxGroup = slide.fancybox;
+				if (fancyboxGroup) {
+					const triggers = document.querySelectorAll(`[data-fancybox="${fancyboxGroup}"]`);
+					// Usar o índice do slide atual, não sempre 0
+					const slideIndex = slide.index !== undefined ? slide.index : fancyboxInstance?.getPageIndex() || 0;
+
+					if (triggers[slideIndex]) {
+						return triggers[slideIndex];
+					}
+				}
+
+				// Último fallback: procurar por src/href similar
+				if (slide.src) {
+					const similarTrigger = document.querySelector(`[href="${slide.src}"], [data-src="${slide.src}"]`);
+					if (similarTrigger) {
+						return similarTrigger;
+					}
+				}
+			}
+
+			return null;
+		} catch (error) {
+			console.warn("Erro ao obter elemento trigger:", error);
+			return null;
+		}
+	}
+
+	/**
+	 * Verifica se um elemento está visível no viewport
+	 * @param {HTMLElement} element - Elemento a verificar
+	 * @returns {boolean} True se visível, false caso contrário
+	 */
+	isElementInViewport(element) {
+		if (!element) return false;
+
+		try {
+			const rect = element.getBoundingClientRect();
+			const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+			const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+
+			return rect.bottom > 0 && rect.right > 0 && rect.left < windowWidth && rect.top < windowHeight;
+		} catch (error) {
+			console.warn("Erro ao verificar viewport:", error);
+			return false;
 		}
 	}
 
