@@ -47,8 +47,8 @@ wp-config-local.php
 # Diretórios de uploads (opcional, descomente se necessário)
 # wp-content/uploads/
 
-# Build outputs
-dist/
+# Build outputs (mantenha dist/ comentado para GitHub Pages)
+# dist/
 build/
 out/
 .next/
