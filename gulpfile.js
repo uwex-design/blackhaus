@@ -5,14 +5,48 @@ const rename = require("gulp-rename");
 const terser = require("gulp-terser");
 const concat = require("gulp-concat");
 
-// Compilar SCSS para CSS
-const scssToCss = () => {
-	return src("./scss/*.scss", { sourcemaps: true })
+// Configuração das bibliotecas de terceiros
+const libsConfig = {
+	js: ["./src/js/lib/fancybox.js"],
+	css: ["./src/scss/lib/fancybox.scss"],
+};
+
+// Concatenar e minificar bibliotecas JS
+const buildLibsJs = () => {
+	return src(libsConfig.js, { sourcemaps: true })
+		.pipe(concat("libs.js"))
+		.pipe(terser())
+		.pipe(rename("libs.min.js"))
+		.pipe(dest("./dist/js", { sourcemaps: true }));
+};
+
+// Compilar bibliotecas SCSS para CSS
+const buildLibsCss = () => {
+	return src(libsConfig.css, { sourcemaps: true })
 		.pipe(
 			sass({
 				api: "modern",
 			}).on("error", sass.logError)
 		)
+		.pipe(concat("libs.css"))
+		.pipe(
+			uglifycss({
+				uglyComments: true,
+			})
+		)
+		.pipe(rename("libs.min.css"))
+		.pipe(dest("./dist/css", { sourcemaps: true }));
+};
+
+// Compilar SCSS para CSS
+const scssToCss = () => {
+	return src("./src/scss/*.scss", { sourcemaps: true })
+		.pipe(
+			sass({
+				api: "modern",
+			}).on("error", sass.logError)
+		)
+		.pipe(concat("style.css"))
 		.pipe(
 			uglifycss({
 				uglyComments: true,
@@ -24,8 +58,7 @@ const scssToCss = () => {
 
 // Minificar JS comum
 const minifyCommonJs = () => {
-	return src("./js/common/*.js", { sourcemaps: true })
-		.pipe(concat("common.js"))
+	return src("./src/js/common.js", { sourcemaps: true })
 		.pipe(terser())
 		.pipe(rename("common.min.js"))
 		.pipe(dest("./dist/js", { sourcemaps: true }));
@@ -33,7 +66,7 @@ const minifyCommonJs = () => {
 
 // Minificar JS das páginas
 const minifyPagesJs = () => {
-	return src("./js/pages/*.js", { sourcemaps: true })
+	return src("./src/js/pages/*.js", { sourcemaps: true })
 		.pipe(terser())
 		.pipe(
 			rename(function (path) {
@@ -45,10 +78,12 @@ const minifyPagesJs = () => {
 
 // Watch files
 const watchFiles = () => {
-	watch("./scss/**/*.scss", scssToCss);
-	watch("./js/common/*.js", minifyCommonJs);
-	watch("./js/pages/*.js", minifyPagesJs);
+	watch("./src/scss/**/*.scss", scssToCss);
+	watch("./src/js/common.js", minifyCommonJs);
+	watch("./src/js/pages/*.js", minifyPagesJs);
+	watch(libsConfig.js, buildLibsJs);
+	watch(libsConfig.css, buildLibsCss);
 };
 
-exports.default = series(scssToCss, minifyCommonJs, minifyPagesJs, watchFiles);
-exports.build = series(scssToCss, minifyCommonJs, minifyPagesJs);
+exports.default = series(buildLibsJs, buildLibsCss, scssToCss, minifyCommonJs, minifyPagesJs, watchFiles);
+exports.build = series(buildLibsJs, buildLibsCss, scssToCss, minifyCommonJs, minifyPagesJs);

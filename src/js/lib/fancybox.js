@@ -173,7 +173,26 @@
 				},
 				spring: function (e = {}) {
 					t = z.Spring;
-					let { velocity: n, mass: o, tension: i, friction: l, restDelta: p, restSpeed: m, maxSpeed: h, clamp: v } = { velocity: 0, mass: 1, tension: 170, friction: 26, restDelta: 0.1, restSpeed: 0.1, maxSpeed: 1 / 0, clamp: !0, ...e };
+					let {
+						velocity: n,
+						mass: o,
+						tension: i,
+						friction: l,
+						restDelta: p,
+						restSpeed: m,
+						maxSpeed: h,
+						clamp: v,
+					} = {
+						velocity: 0,
+						mass: 1,
+						tension: 170,
+						friction: 26,
+						restDelta: 0.1,
+						restSpeed: 0.1,
+						maxSpeed: 1 / 0,
+						clamp: !0,
+						...e,
+					};
 					return (a = n), (r = o), (s = i), (c = l), (f = p), (d = m), (u = h), (g = v), (M = {}), D;
 				},
 				isRunning: function () {
@@ -306,7 +325,11 @@
 				e.cancelable && e.preventDefault();
 			},
 			q = { passive: !1 },
-			B = { panThreshold: 5, swipeThreshold: 3, ignore: ["textarea", "input", "select", "[contenteditable]", "[data-selectable]", "[data-draggable]"] },
+			B = {
+				panThreshold: 5,
+				swipeThreshold: 3,
+				ignore: ["textarea", "input", "select", "[contenteditable]", "[data-selectable]", "[data-draggable]"],
+			},
 			W = !1,
 			Z = !0,
 			G = (e, t) => {
@@ -337,7 +360,25 @@
 					let t = j(r),
 						l = j(s),
 						d = Math.abs(y) > Math.abs(b) ? y : b,
-						f = { srcEvent: i, isPanRecognized: c, isSwipeRecognized: u, firstTouch: a, previousTouch: s, currentTouch: r, deltaX: p, deltaY: m, offsetX: h, offsetY: v, velocityX: y, velocityY: b, velocity: d, angle: E, axis: o, scale: t && l ? t / l : 0, center: n };
+						f = {
+							srcEvent: i,
+							isPanRecognized: c,
+							isSwipeRecognized: u,
+							firstTouch: a,
+							previousTouch: s,
+							currentTouch: r,
+							deltaX: p,
+							deltaY: m,
+							offsetX: h,
+							offsetY: v,
+							velocityX: y,
+							velocityY: b,
+							velocity: d,
+							angle: E,
+							axis: o,
+							scale: t && l ? t / l : 0,
+							center: n,
+						};
 					for (let t of L.get(e) || []) t(f);
 				}
 				function T(e) {
@@ -459,7 +500,23 @@
 				return I;
 			};
 		G.isClickAllowed = () => Z;
-		let Y = { IMAGE_ERROR: "This image couldn't be loaded. <br /> Please try again later.", MOVE_UP: "Move up", MOVE_DOWN: "Move down", MOVE_LEFT: "Move left", MOVE_RIGHT: "Move right", ZOOM_IN: "Zoom in", ZOOM_OUT: "Zoom out", TOGGLE_FULL: "Toggle zoom level", TOGGLE_1TO1: "Toggle zoom level", ITERATE_ZOOM: "Toggle zoom level", ROTATE_CCW: "Rotate counterclockwise", ROTATE_CW: "Rotate clockwise", FLIP_X: "Flip horizontally", FLIP_Y: "Flip vertically", RESET: "Reset" },
+		let Y = {
+				IMAGE_ERROR: "This image couldn't be loaded. <br /> Please try again later.",
+				MOVE_UP: "Move up",
+				MOVE_DOWN: "Move down",
+				MOVE_LEFT: "Move left",
+				MOVE_RIGHT: "Move right",
+				ZOOM_IN: "Zoom in",
+				ZOOM_OUT: "Zoom out",
+				TOGGLE_FULL: "Toggle zoom level",
+				TOGGLE_1TO1: "Toggle zoom level",
+				ITERATE_ZOOM: "Toggle zoom level",
+				ROTATE_CCW: "Rotate counterclockwise",
+				ROTATE_CW: "Rotate clockwise",
+				FLIP_X: "Flip horizontally",
+				FLIP_Y: "Flip vertically",
+				RESET: "Reset",
+			},
 			X = 1e4,
 			U = (e) => {
 				e.cancelable && e.preventDefault();
@@ -469,7 +526,29 @@
 			Q = (((T = {}).Cover = "cover"), (T.Full = "full"), (T.Max = "max"), T),
 			ee = { x: 0, y: 0, scale: 1, angle: 0, flipX: 1, flipY: 1 },
 			et = (((R = {})[(R.Init = 0)] = "Init"), (R[(R.Loading = 1)] = "Loading"), (R[(R.Error = 2)] = "Error"), (R[(R.Ready = 3)] = "Ready"), (R[(R.Destroyed = 4)] = "Destroyed"), R),
-			en = { bounds: !0, classes: { container: "f-panzoom", wrapper: "f-panzoom__wrapper", content: "f-panzoom__content", viewport: "f-panzoom__viewport" }, clickAction: J.ToggleFull, dblClickAction: !1, gestures: {}, height: "auto", l10n: Y, maxScale: 4, minScale: 1, mouseMoveFactor: 1, panMode: "drag", protected: !1, singleClickAction: !1, spinnerTpl: '<div class="f-spinner"></div>', wheelAction: J.Zoom, width: "auto" },
+			en = {
+				bounds: !0,
+				classes: {
+					container: "f-panzoom",
+					wrapper: "f-panzoom__wrapper",
+					content: "f-panzoom__content",
+					viewport: "f-panzoom__viewport",
+				},
+				clickAction: J.ToggleFull,
+				dblClickAction: !1,
+				gestures: {},
+				height: "auto",
+				l10n: Y,
+				maxScale: 4,
+				minScale: 1,
+				mouseMoveFactor: 1,
+				panMode: "drag",
+				protected: !1,
+				singleClickAction: !1,
+				spinnerTpl: '<div class="f-spinner"></div>',
+				wheelAction: J.Zoom,
+				width: "auto",
+			},
 			eo = 0,
 			ei = 0,
 			el = 0,
@@ -522,10 +601,18 @@
 					}
 					switch ((U(e), o)) {
 						case J.Pan:
-							Z(o, { srcEvent: e, deltaX: -(2 * e.deltaX), deltaY: -(2 * e.deltaY) });
+							Z(o, {
+								srcEvent: e,
+								deltaX: -(2 * e.deltaX),
+								deltaY: -(2 * e.deltaY),
+							});
 							break;
 						case J.Zoom:
-							Z(J.ZoomTo, { srcEvent: e, scale: l, center: { x: e.clientX, y: e.clientY } });
+							Z(J.ZoomTo, {
+								srcEvent: e,
+								scale: l,
+								center: { x: e.clientX, y: e.clientY },
+							});
 							break;
 						default:
 							Z(o, { srcEvent: e });
@@ -614,7 +701,14 @@
 									((l && c) || (a && u)) && ((w.y = p(n.y[0], w.y, n.y[1])), (g = !0)),
 									g &&
 										f
-											.spring({ tension: 94, friction: 17, maxSpeed: 555 * w.scale, restDelta: 0.1, restSpeed: 0.1, velocity: f.getCurrentVelocities() })
+											.spring({
+												tension: 94,
+												friction: 17,
+												maxSpeed: 555 * w.scale,
+												restDelta: 0.1,
+												restSpeed: 0.1,
+												velocity: f.getCurrentVelocities(),
+											})
 											.from(E)
 											.to(w)
 											.start(),
@@ -729,7 +823,10 @@
 						u = r * e,
 						d = (c - a) * 0.5 - (((o / a) * 100) / 100) * (c - a),
 						f = (u - r) * 0.5 - (((l / r) * 100) / 100) * (u - r);
-					return { x: (d = p(s.x[0], d, s.x[1])), y: (f = p(s.y[0], f, s.y[1])) };
+					return {
+						x: (d = p(s.x[0], d, s.x[1])),
+						y: (f = p(s.y[0], f, s.y[1])),
+					};
 				}
 				function I(t = "base") {
 					if (!e) return 1;
@@ -808,7 +905,19 @@
 					if (w.scale < t - 0.01 || w.scale > n + 0.01) return void Z(J.ZoomTo, { scale: o });
 					if (f.isRunning() || d?.isPointerDown()) return;
 					let i = q(o);
-					w.x < i.x[0] || w.x > i.x[1] || w.y < i.y[0] || w.y > i.y[1] ? ((w.x = p(i.x[0], w.x, i.x[1])), (w.y = p(i.y[0], w.y, i.y[1])), f.spring({ tension: 170, friction: 17, restDelta: 0.001, restSpeed: 0.001, maxSpeed: 1 / 0, velocity: f.getCurrentVelocities() }), f.from(E).to(w).start()) : Y();
+					w.x < i.x[0] || w.x > i.x[1] || w.y < i.y[0] || w.y > i.y[1]
+						? ((w.x = p(i.x[0], w.x, i.x[1])),
+						  (w.y = p(i.y[0], w.y, i.y[1])),
+						  f.spring({
+								tension: 170,
+								friction: 17,
+								restDelta: 0.001,
+								restSpeed: 0.001,
+								maxSpeed: 1 / 0,
+								velocity: f.getCurrentVelocities(),
+						  }),
+						  f.from(E).to(w).start())
+						: Y();
 				}
 				function W() {
 					if (!e || !e.parentElement || !i) return;
@@ -958,8 +1067,31 @@
 					}
 					if (t === J.Swipe) {
 						let e = 500 * w.scale;
-						f.spring({ tension: 94, friction: 17, maxSpeed: e, restDelta: 0.1, restSpeed: 0.1, velocity: a });
-					} else t === J.Pan || s ? f.spring({ tension: 750, friction: 17, restDelta: 0.01, restSpeed: 0.01, maxSpeed: 1 }) : f.spring({ tension: 170, friction: 17, restDelta: 0.001, restSpeed: 0.001, maxSpeed: 1 / 0, velocity: a });
+						f.spring({
+							tension: 94,
+							friction: 17,
+							maxSpeed: e,
+							restDelta: 0.1,
+							restSpeed: 0.1,
+							velocity: a,
+						});
+					} else
+						t === J.Pan || s
+							? f.spring({
+									tension: 750,
+									friction: 17,
+									restDelta: 0.01,
+									restSpeed: 0.01,
+									maxSpeed: 1,
+							  })
+							: f.spring({
+									tension: 170,
+									friction: 17,
+									restDelta: 0.001,
+									restSpeed: 0.001,
+									maxSpeed: 1 / 0,
+									velocity: a,
+							  });
 					t === J.Reset && 0 === n.velocity ? (E = { ...w }) : f.from(E).to(w).start(), S("action", t);
 				}
 				function Y() {
@@ -976,7 +1108,21 @@
 							n = t.width,
 							o = t.height,
 							{ width: i, height: l } = A();
-						if (!e) return { x: 0, y: 0, width: 0, height: 0, scale: 0, flipX: 0, flipY: 0, angle: 0, fitWidth: n, fitHeight: o, fullWidth: i, fullHeight: l };
+						if (!e)
+							return {
+								x: 0,
+								y: 0,
+								width: 0,
+								height: 0,
+								scale: 0,
+								flipX: 0,
+								flipY: 0,
+								angle: 0,
+								fitWidth: n,
+								fitHeight: o,
+								fullWidth: i,
+								fullHeight: l,
+							};
 						let { x: a, y: r, scale: s, angle: c, flipX: u, flipY: d } = E,
 							f = 1 / j(),
 							g = i,
@@ -989,7 +1135,20 @@
 						let b = g ? i * h : 0,
 							x = p ? l * h : 0,
 							M = g && p ? (i * m) / b : 0;
-						return { x: (a = a + 0.5 * g - 0.5 * b), y: (r = r + 0.5 * p - 0.5 * x), width: b, height: x, scale: M, flipX: u, flipY: d, angle: c, fitWidth: n, fitHeight: o, fullWidth: i, fullHeight: l };
+						return {
+							x: (a = a + 0.5 * g - 0.5 * b),
+							y: (r = r + 0.5 * p - 0.5 * x),
+							width: b,
+							height: x,
+							scale: M,
+							flipX: u,
+							flipY: d,
+							angle: c,
+							fitWidth: n,
+							fitHeight: o,
+							fullWidth: i,
+							fullHeight: l,
+						};
 					})();
 					if (i && d) {
 						let { x: e, y: t, width: n, height: o, scale: i, flipX: l, flipY: r } = d,
@@ -1103,7 +1262,10 @@
 							(v = et.Init),
 							S("init"),
 							(function () {
-								for (let [e, t] of Object.entries({ ...o, ...(y.plugins || {}) }))
+								for (let [e, t] of Object.entries({
+									...o,
+									...(y.plugins || {}),
+								}))
 									if (e && !b[e] && t instanceof Function) {
 										let n = t();
 										n.init(ep), (b[e] = n);
@@ -1228,13 +1390,61 @@
 						t && e.classList.toggle(t, n || !1);
 					});
 			},
-			eu = { ...Y, ERROR: "Something went wrong. <br /> Please try again later.", NEXT: "Next page", PREV: "Previous page", GOTO: "Go to page #%d", DOWNLOAD: "Download", TOGGLE_FULLSCREEN: "Toggle full-screen mode", TOGGLE_EXPAND: "Toggle full-size mode", TOGGLE_THUMBS: "Toggle thumbnails", TOGGLE_AUTOPLAY: "Toggle slideshow" },
+			eu = {
+				...Y,
+				ERROR: "Something went wrong. <br /> Please try again later.",
+				NEXT: "Next page",
+				PREV: "Previous page",
+				GOTO: "Go to page #%d",
+				DOWNLOAD: "Download",
+				TOGGLE_FULLSCREEN: "Toggle full-screen mode",
+				TOGGLE_EXPAND: "Toggle full-size mode",
+				TOGGLE_THUMBS: "Toggle thumbnails",
+				TOGGLE_AUTOPLAY: "Toggle slideshow",
+			},
 			ed = (e) => {
 				e.cancelable && e.preventDefault();
 			},
 			ef = (((P = {})[(P.Init = 0)] = "Init"), (P[(P.Ready = 1)] = "Ready"), (P[(P.Destroyed = 2)] = "Destroyed"), P),
 			eg = (((C = {})[(C.Loading = 0)] = "Loading"), (C[(C.Loaded = 1)] = "Loaded"), (C[(C.Error = 2)] = "Error"), C),
-			ep = { adaptiveHeight: !1, center: !0, classes: { container: "f-carousel", isEnabled: "is-enabled", isLTR: "is-ltr", isRTL: "is-rtl", isHorizontal: "is-horizontal", isVertical: "is-vertical", hasAdaptiveHeight: "has-adaptive-height", viewport: "f-carousel__viewport", slide: "f-carousel__slide", isSelected: "is-selected" }, dragFree: !1, enabled: !0, errorTpl: '<div class="f-html">{{ERROR}}</div>', fill: !1, infinite: !0, initialPage: 0, l10n: eu, rtl: !1, slides: [], slidesPerPage: "auto", spinnerTpl: '<div class="f-spinner"></div>', transition: "fade", tween: { clamp: !0, mass: 1, tension: 200, friction: 25, restDelta: 1, restSpeed: 1, velocity: 0 }, vertical: !1 },
+			ep = {
+				adaptiveHeight: !1,
+				center: !0,
+				classes: {
+					container: "f-carousel",
+					isEnabled: "is-enabled",
+					isLTR: "is-ltr",
+					isRTL: "is-rtl",
+					isHorizontal: "is-horizontal",
+					isVertical: "is-vertical",
+					hasAdaptiveHeight: "has-adaptive-height",
+					viewport: "f-carousel__viewport",
+					slide: "f-carousel__slide",
+					isSelected: "is-selected",
+				},
+				dragFree: !1,
+				enabled: !0,
+				errorTpl: '<div class="f-html">{{ERROR}}</div>',
+				fill: !1,
+				infinite: !0,
+				initialPage: 0,
+				l10n: eu,
+				rtl: !1,
+				slides: [],
+				slidesPerPage: "auto",
+				spinnerTpl: '<div class="f-spinner"></div>',
+				transition: "fade",
+				tween: {
+					clamp: !0,
+					mass: 1,
+					tension: 200,
+					friction: 25,
+					restDelta: 1,
+					restSpeed: 1,
+					velocity: 0,
+				},
+				vertical: !1,
+			},
 			em = 0,
 			eh = (e, t = {}, o = {}) => {
 				let i, c, d, g, v;
@@ -1296,7 +1506,10 @@
 								((y = ef.Init),
 								Y("init"),
 								(function () {
-									for (let [e, t] of Object.entries({ ...o, ...(E.plugins || {}) }))
+									for (let [e, t] of Object.entries({
+										...o,
+										...(E.plugins || {}),
+									}))
 										if (e && !w[e] && t instanceof Function) {
 											let n = t();
 											n.init(eA, eh), (w[e] = n);
@@ -1352,7 +1565,15 @@
 																			((C = e.pos),
 																			c && !S && (C < k || C > I)
 																				? c
-																						.spring({ clamp: !0, mass: 1, tension: 200, friction: 25, velocity: 0, restDelta: 1, restSpeed: 1 })
+																						.spring({
+																							clamp: !0,
+																							mass: 1,
+																							tension: 200,
+																							friction: 25,
+																							velocity: 0,
+																							restDelta: 1,
+																							restSpeed: 1,
+																						})
 																						.from({ pos: C })
 																						.to({ pos: p(k, C, I) })
 																						.start()
@@ -1410,7 +1631,15 @@
 									!S &&
 										(C < k || C > I) &&
 										c
-											.spring({ clamp: !0, mass: 1, tension: 500, friction: 25, velocity: c.getCurrentVelocities()?.pos || 0, restDelta: 1, restSpeed: 1 })
+											.spring({
+												clamp: !0,
+												mass: 1,
+												tension: 500,
+												friction: 25,
+												velocity: c.getCurrentVelocities()?.pos || 0,
+												restDelta: 1,
+												restSpeed: 1,
+											})
 											.from({ pos: C })
 											.to({ pos: p(k, C, I) })
 											.start();
@@ -1436,7 +1665,15 @@
 								!S && (r <= k && a * l < 0 ? (s = 0.2 * Math.max(0.01, 1 - Math.abs((1 / ei()) * Math.abs(r - k)))) : r >= I && a * l > 0 && (s = 0.2 * Math.max(0.01, 1 - Math.abs((1 / ei()) * Math.abs(r - I))))),
 									(r += a * s * l),
 									c
-										.spring({ clamp: !0, mass: 1, tension: 700, friction: 25, velocity: c.getCurrentVelocities()?.pos || 0, restDelta: 1, restSpeed: 1 })
+										.spring({
+											clamp: !0,
+											mass: 1,
+											tension: 700,
+											friction: 25,
+											velocity: c.getCurrentVelocities()?.pos || 0,
+											restDelta: 1,
+											restSpeed: 1,
+										})
 										.from({ pos: C })
 										.to({ pos: r })
 										.start();
@@ -1454,7 +1691,15 @@
 									Math.abs(r) > 0 && ((e = 2 * Math.abs(r)), (e = Math.min(0.3 * ei(), e))),
 										(s = p(k + -1 * e, s, I + e)),
 										c
-											.spring({ clamp: !0, mass: 1, tension: 380, friction: 25, velocity: -1 * r, restDelta: 1, restSpeed: 1 })
+											.spring({
+												clamp: !0,
+												mass: 1,
+												tension: 380,
+												friction: 25,
+												velocity: -1 * r,
+												restDelta: 1,
+												restSpeed: 1,
+											})
 											.from({ pos: C })
 											.to({ pos: s })
 											.start();
@@ -1463,14 +1708,26 @@
 								if (a || w.Autoscroll?.isEnabled())
 									return void (Math.abs(r) > 10
 										? c
-												.spring({ clamp: !0, mass: 1, tension: 150, friction: 25, velocity: -1 * r, restDelta: 1, restSpeed: 1 })
+												.spring({
+													clamp: !0,
+													mass: 1,
+													tension: 150,
+													friction: 25,
+													velocity: -1 * r,
+													restDelta: 1,
+													restSpeed: 1,
+												})
 												.from({ pos: C })
 												.to({ pos: s })
 												.start()
 										: c.isRunning() || O || ((O = !0), Y("settle")));
 								if (!(a || w.Autoscroll?.isEnabled()) && (!(e.offsetX || e.offsetY) || ("y" === t && !R) || ("x" === t && R))) return void eP(A, { transition: "tween" });
 								let d = en(s);
-								Math.abs(r) > 10 && d === A && (r > 0 ? (d += T && !R ? 1 : -1) : (d += T && !R ? -1 : 1)), eP(d, { transition: "tween", tween: { tension: 160, friction: 25, velocity: -1 * r } });
+								Math.abs(r) > 10 && d === A && (r > 0 ? (d += T && !R ? 1 : -1) : (d += T && !R ? -1 : 1)),
+									eP(d, {
+										transition: "tween",
+										tween: { tension: 160, friction: 25, velocity: -1 * r },
+									});
 							})
 							.init());
 				}
@@ -1565,7 +1822,21 @@
 					return J($), n;
 				}
 				function eg(e) {
-					return (a(e) || e instanceof HTMLElement) && (e = { html: e }), { index: -1, el: void 0, class: "", isVirtual: !0, dim: 0, pos: 0, offset: 0, html: "", src: "", ...e };
+					return (
+						(a(e) || e instanceof HTMLElement) && (e = { html: e }),
+						{
+							index: -1,
+							el: void 0,
+							class: "",
+							isVirtual: !0,
+							dim: 0,
+							pos: 0,
+							offset: 0,
+							html: "",
+							src: "",
+							...e,
+						}
+					);
 				}
 				function ev(e) {
 					if (!M || !e) return;
@@ -1647,7 +1918,20 @@
 							(i = "auto" === i ? 1 / 0 : parseFloat(i + "")), (j = []);
 							let l = 0,
 								a = 0;
-							for (let e of D) (!j.length || l + e.dim - t > 0.05 || a >= i) && (j.push({ index: j.length, slides: [], dim: 0, offset: 0, pos: 0 }), (l = 0), (a = 0)), j[j.length - 1].slides.push(e), (l += e.dim + n), a++;
+							for (let e of D)
+								(!j.length || l + e.dim - t > 0.05 || a >= i) &&
+									(j.push({
+										index: j.length,
+										slides: [],
+										dim: 0,
+										offset: 0,
+										pos: 0,
+									}),
+									(l = 0),
+									(a = 0)),
+									j[j.length - 1].slides.push(e),
+									(l += e.dim + n),
+									a++;
 							let r = B("center"),
 								s = B("fill"),
 								c = 0;
@@ -1755,7 +2039,10 @@
 					i.setAttribute("id", l), (i.dataset.selectable = "true"), h(t, "has-caption"), t.setAttribute("aria-labelledby", l), (e.captionEl = i), t.insertAdjacentElement("beforeend", i);
 				}
 				function eP(e, t) {
-					let { transition: n, tween: o } = { ...{ transition: E.transition, tween: E.tween }, ...(t || {}) };
+					let { transition: n, tween: o } = {
+						...{ transition: E.transition, tween: E.tween },
+						...(t || {}),
+					};
 					if (!x || !c) return;
 					let i = j.length;
 					if (
@@ -1843,7 +2130,27 @@
 							i = el(),
 							l = Math.floor(((c?.isRunning() ? c.getEndValues().pos : C) - j[0].pos) / i);
 						for (let n of eu(e, t)) Y("addSlide", n);
-						return J($), eE(), c && (o === A && (n -= l * i), (z = j[A || 0].pos || 0), c.spring({ clamp: !0, mass: 1, tension: 300, friction: 25, restDelta: 1, restSpeed: 1 }).from({ pos: n }).to({ pos: z }).start()), eC(), eA;
+						return (
+							J($),
+							eE(),
+							c &&
+								(o === A && (n -= l * i),
+								(z = j[A || 0].pos || 0),
+								c
+									.spring({
+										clamp: !0,
+										mass: 1,
+										tension: 300,
+										friction: 25,
+										restDelta: 1,
+										restSpeed: 1,
+									})
+									.from({ pos: n })
+									.to({ pos: z })
+									.start()),
+							eC(),
+							eA
+						);
 					},
 					canGoPrev: function () {
 						return S || A > 0;
@@ -2066,7 +2373,14 @@
 						(e = ev(e, "{{src}}", l + "")), (e = ev(e, "{{alt}}", r + "")), (e = ev(e, "{{srcset}}", s + "")), (e = ev(e, "{{sizes}}", c + "")), i.insertAdjacentHTML("afterbegin", e);
 					}
 					if (!i.querySelector(".f-panzoom__content")) return;
-					let d = ea(i, { width: o.width && "auto" !== o.width ? parseFloat(o.width + "") : "auto", height: o.height && "auto" !== o.height ? parseFloat(o.height + "") : "auto", classes: { container: "f-zoomable" }, event: () => e?.getLastMouseMove(), spinnerTpl: () => e?.getOption("spinnerTpl") || "", ...t("Panzoom") });
+					let d = ea(i, {
+						width: o.width && "auto" !== o.width ? parseFloat(o.width + "") : "auto",
+						height: o.height && "auto" !== o.height ? parseFloat(o.height + "") : "auto",
+						classes: { container: "f-zoomable" },
+						event: () => e?.getLastMouseMove(),
+						spinnerTpl: () => e?.getOption("spinnerTpl") || "",
+						...t("Panzoom"),
+					});
 					d.on("*", (t, n, ...i) => {
 						e && ("loading" === n && (o.state = 0), "loaded" === n && (o.state = 1), "error" === n && ((o.state = 2), e?.showError(o, "{{IMAGE_ERROR}}")), e.emit(`panzoom:${n}`, o, ...i), "ready" === n && e.emit("contentReady", o), o.index === e.getPageIndex() && u());
 					}),
@@ -2141,7 +2455,20 @@
 				}
 				function o() {
 					let o = n().target;
-					e && o && e && o && ((t = o), (e.getOptions().classes = { ...e.getOptions().classes, isSelected: "" }), (e.getOptions().initialSlide = t.getPage()?.slides[0]?.index || 0), n().syncOnChange && e.on("change", a), n().syncOnClick && e.on("click", s), n().syncOnHover && e.getViewport()?.addEventListener("mouseover", c), e && t && (e.on("ready", i), e.on("refresh", u), t.on("change", r), t.on("filter", d)));
+					e &&
+						o &&
+						e &&
+						o &&
+						((t = o),
+						(e.getOptions().classes = {
+							...e.getOptions().classes,
+							isSelected: "",
+						}),
+						(e.getOptions().initialSlide = t.getPage()?.slides[0]?.index || 0),
+						n().syncOnChange && e.on("change", a),
+						n().syncOnClick && e.on("click", s),
+						n().syncOnHover && e.getViewport()?.addEventListener("mouseover", c),
+						e && t && (e.on("ready", i), e.on("refresh", u), t.on("change", r), t.on("filter", d)));
 				}
 				function i() {
 					f();
@@ -2267,7 +2594,10 @@
 					},
 				};
 			},
-			eT = { prevTpl: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" tabindex="-1"><path d="M15 3l-9 9 9 9"></path></svg>', nextTpl: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" tabindex="-1"><path d="M9 3l9 9-9 9"></path></svg>' },
+			eT = {
+				prevTpl: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" tabindex="-1"><path d="M15 3l-9 9 9 9"></path></svg>',
+				nextTpl: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" tabindex="-1"><path d="M9 3l9 9-9 9"></path></svg>',
+			},
 			eR = () => {
 				let e, t, n;
 				function o() {
@@ -2303,23 +2633,72 @@
 				};
 			},
 			eP = {
-				moveLeft: { tpl: '<button data-panzoom-action="moveLeft" class="f-button" title="{{MOVE_LEFT}}"><svg><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg></button>' },
-				moveRight: { tpl: '<button data-panzoom-action="moveRight" class="f-button" title="{{MOVE_RIGHT}}"><svg><path d="M5 12h14M13 18l6-6M13 6l6 6"/></svg></button>' },
-				moveUp: { tpl: '<button data-panzoom-action="moveUp" class="f-button" title="{{MOVE_UP}}"><svg><path d="M12 5v14M18 11l-6-6M6 11l6-6"/></svg></button>' },
-				moveDown: { tpl: '<button data-panzoom-action="moveDown" class="f-button" title="{{MOVE_DOWN}}"><svg><path d="M12 5v14M18 13l-6 6M6 13l6 6"/></svg></button>' },
-				zoomIn: { tpl: '<button data-panzoom-action="zoomIn" class="f-button" title="{{ZOOM_IN}}"><svg><circle cx="11" cy="11" r="7.5"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/></svg></button>' },
-				zoomOut: { tpl: '<button data-panzoom-action="zoomOut" class="f-button" title="{{ZOOM_OUT}}"><svg><circle cx="11" cy="11" r="7.5"/><path d="m21 21-4.35-4.35M8 11h6"/></svg></button>' },
-				toggle1to1: { tpl: '<button data-panzoom-action="toggleFull" class="f-button" title="{{TOGGLE_FULL}}"><svg><path d="M3.51 3.07c5.74.02 11.48-.02 17.22.02 1.37.1 2.34 1.64 2.18 3.13 0 4.08.02 8.16 0 12.23-.1 1.54-1.47 2.64-2.79 2.46-5.61-.01-11.24.02-16.86-.01-1.36-.12-2.33-1.65-2.17-3.14 0-4.07-.02-8.16 0-12.23.1-1.36 1.22-2.48 2.42-2.46Z"/><path d="M5.65 8.54h1.49v6.92m8.94-6.92h1.49v6.92M11.5 9.4v.02m0 5.18v0"/></svg></button>' },
-				toggleFull: { tpl: '<button data-panzoom-action="toggleFull" class="f-button" title="{{TOGGLE_FULL}}"><svg><g><line x1="11" y1="8" x2="11" y2="14"></line></g><circle cx="11" cy="11" r="7.5"/><path d="m21 21-4.35-4.35M8 11h6"/></svg></button>' },
-				rotateCCW: { tpl: '<button data-panzoom-action="rotateCCW" class="f-button" title="{{ROTATE_CCW}}"><svg><path d="M15 4.55a8 8 0 0 0-6 14.9M9 15v5H4M18.37 7.16v.01M13 19.94v.01M16.84 18.37v.01M19.37 15.1v.01M19.94 11v.01"/></svg></button>' },
-				rotateCW: { tpl: '<button data-panzoom-action="rotateCW" class="f-button" title="{{ROTATE_CW}}"><svg><path d="M9 4.55a8 8 0 0 1 6 14.9M15 15v5h5M5.63 7.16v.01M4.06 11v.01M4.63 15.1v.01M7.16 18.37v.01M11 19.94v.01"/></svg></button>' },
-				flipX: { tpl: '<button data-panzoom-action="flipX" class="f-button" title="{{FLIP_X}}"><svg><path d="M12 3v18M16 7v10h5L16 7M8 7v10H3L8 7"/></svg></button>' },
-				flipY: { tpl: '<button data-panzoom-action="flipY" class="f-button" title="{{FLIP_Y}}"><svg><path d="M3 12h18M7 16h10L7 21v-5M7 8h10L7 3v5"/></svg></button>' },
-				reset: { tpl: '<button data-panzoom-action="reset" class="f-button" title="{{RESET}}"><svg><path d="M20 11A8.1 8.1 0 0 0 4.5 9M4 5v4h4M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></svg></button>' },
+				moveLeft: {
+					tpl: '<button data-panzoom-action="moveLeft" class="f-button" title="{{MOVE_LEFT}}"><svg><path d="M5 12h14M5 12l6 6M5 12l6-6"/></svg></button>',
+				},
+				moveRight: {
+					tpl: '<button data-panzoom-action="moveRight" class="f-button" title="{{MOVE_RIGHT}}"><svg><path d="M5 12h14M13 18l6-6M13 6l6 6"/></svg></button>',
+				},
+				moveUp: {
+					tpl: '<button data-panzoom-action="moveUp" class="f-button" title="{{MOVE_UP}}"><svg><path d="M12 5v14M18 11l-6-6M6 11l6-6"/></svg></button>',
+				},
+				moveDown: {
+					tpl: '<button data-panzoom-action="moveDown" class="f-button" title="{{MOVE_DOWN}}"><svg><path d="M12 5v14M18 13l-6 6M6 13l6 6"/></svg></button>',
+				},
+				zoomIn: {
+					tpl: '<button data-panzoom-action="zoomIn" class="f-button" title="{{ZOOM_IN}}"><svg><circle cx="11" cy="11" r="7.5"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/></svg></button>',
+				},
+				zoomOut: {
+					tpl: '<button data-panzoom-action="zoomOut" class="f-button" title="{{ZOOM_OUT}}"><svg><circle cx="11" cy="11" r="7.5"/><path d="m21 21-4.35-4.35M8 11h6"/></svg></button>',
+				},
+				toggle1to1: {
+					tpl: '<button data-panzoom-action="toggleFull" class="f-button" title="{{TOGGLE_FULL}}"><svg><path d="M3.51 3.07c5.74.02 11.48-.02 17.22.02 1.37.1 2.34 1.64 2.18 3.13 0 4.08.02 8.16 0 12.23-.1 1.54-1.47 2.64-2.79 2.46-5.61-.01-11.24.02-16.86-.01-1.36-.12-2.33-1.65-2.17-3.14 0-4.07-.02-8.16 0-12.23.1-1.36 1.22-2.48 2.42-2.46Z"/><path d="M5.65 8.54h1.49v6.92m8.94-6.92h1.49v6.92M11.5 9.4v.02m0 5.18v0"/></svg></button>',
+				},
+				toggleFull: {
+					tpl: '<button data-panzoom-action="toggleFull" class="f-button" title="{{TOGGLE_FULL}}"><svg><g><line x1="11" y1="8" x2="11" y2="14"></line></g><circle cx="11" cy="11" r="7.5"/><path d="m21 21-4.35-4.35M8 11h6"/></svg></button>',
+				},
+				rotateCCW: {
+					tpl: '<button data-panzoom-action="rotateCCW" class="f-button" title="{{ROTATE_CCW}}"><svg><path d="M15 4.55a8 8 0 0 0-6 14.9M9 15v5H4M18.37 7.16v.01M13 19.94v.01M16.84 18.37v.01M19.37 15.1v.01M19.94 11v.01"/></svg></button>',
+				},
+				rotateCW: {
+					tpl: '<button data-panzoom-action="rotateCW" class="f-button" title="{{ROTATE_CW}}"><svg><path d="M9 4.55a8 8 0 0 1 6 14.9M15 15v5h5M5.63 7.16v.01M4.06 11v.01M4.63 15.1v.01M7.16 18.37v.01M11 19.94v.01"/></svg></button>',
+				},
+				flipX: {
+					tpl: '<button data-panzoom-action="flipX" class="f-button" title="{{FLIP_X}}"><svg><path d="M12 3v18M16 7v10h5L16 7M8 7v10H3L8 7"/></svg></button>',
+				},
+				flipY: {
+					tpl: '<button data-panzoom-action="flipY" class="f-button" title="{{FLIP_Y}}"><svg><path d="M3 12h18M7 16h10L7 21v-5M7 8h10L7 3v5"/></svg></button>',
+				},
+				reset: {
+					tpl: '<button data-panzoom-action="reset" class="f-button" title="{{RESET}}"><svg><path d="M20 11A8.1 8.1 0 0 0 4.5 9M4 5v4h4M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></svg></button>',
+				},
 			},
 			eC = (((O = {}).Left = "left"), (O.middle = "middle"), (O.right = "right"), O),
-			eO = { counter: { tpl: '<div class="f-carousel__counter"><span data-carousel-page></span>/<span data-carousel-pages></span></div>' }, download: { tpl: '<button data-carousel-download class="f-button" title="{{DOWNLOAD}}"><svg><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5 5-5M12 4v12"/></svg></button>' }, autoplay: { tpl: '<button data-autoplay-action="toggle" class="f-button" title="{{TOGGLE_AUTOPLAY}}"><svg><g><path d="M5 3.5 19 12 5 20.5Z"/></g><g><path d="M8 4v15M17 4v15"/></g></svg></button>' }, thumbs: { tpl: '<button data-thumbs-action="toggle" class="f-button" title="{{TOGGLE_THUMBS}}"><svg><path d="M22 16 12 8 2 16"/></svg></button>' }, ...eP },
-			eA = { absolute: !1, display: { left: [], middle: ["zoomIn", "zoomOut", "toggle1to1", "rotateCCW", "rotateCW", "flipX", "flipY", "reset"], right: [] }, enabled: "auto", items: {} },
+			eO = {
+				counter: {
+					tpl: '<div class="f-carousel__counter"><span data-carousel-page></span>/<span data-carousel-pages></span></div>',
+				},
+				download: {
+					tpl: '<button data-carousel-download class="f-button" title="{{DOWNLOAD}}"><svg><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5 5-5M12 4v12"/></svg></button>',
+				},
+				autoplay: {
+					tpl: '<button data-autoplay-action="toggle" class="f-button" title="{{TOGGLE_AUTOPLAY}}"><svg><g><path d="M5 3.5 19 12 5 20.5Z"/></g><g><path d="M8 4v15M17 4v15"/></g></svg></button>',
+				},
+				thumbs: {
+					tpl: '<button data-thumbs-action="toggle" class="f-button" title="{{TOGGLE_THUMBS}}"><svg><path d="M22 16 12 8 2 16"/></svg></button>',
+				},
+				...eP,
+			},
+			eA = {
+				absolute: !1,
+				display: {
+					left: [],
+					middle: ["zoomIn", "zoomOut", "toggle1to1", "rotateCCW", "rotateCW", "flipX", "flipY", "reset"],
+					right: [],
+				},
+				enabled: "auto",
+				items: {},
+			},
 			ez = () => {
 				let e, t;
 				function n() {
@@ -2382,7 +2761,12 @@
 					},
 				};
 			},
-			ek = { autoStart: !0, pauseOnHover: !0, showProgressbar: !0, timeout: 2e3 },
+			ek = {
+				autoStart: !0,
+				pauseOnHover: !0,
+				showProgressbar: !0,
+				timeout: 2e3,
+			},
 			eI = () => {
 				let e,
 					t,
@@ -2493,7 +2877,13 @@
 				};
 				return x;
 			},
-			e$ = { Carousel: { Lazyload: { showLoading: !1 } }, minCount: 2, showOnStart: !0, thumbTpl: '<button aria-label="Slide to #{{page}}"><img draggable="false" alt="{{alt}}" data-lazy-src="{{src}}" /></button>', type: "modern" },
+			e$ = {
+				Carousel: { Lazyload: { showLoading: !1 } },
+				minCount: 2,
+				showOnStart: !0,
+				thumbTpl: '<button aria-label="Slide to #{{page}}"><img draggable="false" alt="{{alt}}" data-lazy-src="{{src}}" /></button>',
+				type: "modern",
+			},
 			e_ = () => {
 				let e,
 					t,
@@ -2533,7 +2923,15 @@
 				function g(e) {
 					let t = e.thumb ? (e.thumb instanceof HTMLImageElement ? e.thumb.src : e.thumb) : e.thumbSrc || void 0,
 						n = s("thumbTpl");
-					return (n = ev(n, "{{alt}}", `Thumbnail #${e.index}`)), (n = ev(n, "{{src}}", t + "")), (n = ev(n, "{{index}}", `${e.index}`)), { html: (n = ev(n, "{{page}}", `${e.index || 1}`)), class: e.thumbClass };
+					return (
+						(n = ev(n, "{{alt}}", `Thumbnail #${e.index}`)),
+						(n = ev(n, "{{src}}", t + "")),
+						(n = ev(n, "{{index}}", `${e.index}`)),
+						{
+							html: (n = ev(n, "{{page}}", `${e.index || 1}`)),
+							class: e.thumbClass,
+						}
+					);
 				}
 				function m() {
 					if (!o || !e || !n || t) return;
@@ -2548,7 +2946,11 @@
 									Sync: { target: e },
 									Lazyload: { preload: 1 },
 									slides: l,
-									classes: { container: "f-thumbs", viewport: "f-thumbs__viewport", slide: "f-thumbs__slide" },
+									classes: {
+										container: "f-thumbs",
+										viewport: "f-thumbs__viewport",
+										slide: "f-thumbs__slide",
+									},
 									initialSlide: e.getOptions().initialPage,
 									center: !0,
 									fill: !u(),
@@ -2747,7 +3149,11 @@
 				autoplay: !1,
 				html5videoTpl: `<video class="f-html5video" playsinline controls controlsList="nodownload" poster="{{poster}}">
     <source src="{{src}}" type="{{format}}" />Sorry, your browser doesn't support embedded videos.</video>`,
-				iframeAttr: { allow: "autoplay; fullscreen", scrolling: "auto", credentialless: "" },
+				iframeAttr: {
+					allow: "autoplay; fullscreen",
+					scrolling: "auto",
+					credentialless: "",
+				},
 				vimeo: { byline: 1, color: "00adef", controls: 1, dnt: 1, muted: 0 },
 				youtube: { controls: 1, enablejsapi: 1, nocookie: 1, rel: 0, fs: 1 },
 			},
@@ -2827,7 +3233,16 @@
 								let o = document.createElement("iframe");
 								for (let [e, i] of (o.classList.add("f-iframe"), o.setAttribute("id", `f-iframe_${t.videoId}`), Object.entries(n().iframeAttr || {}))) o.setAttribute(e, i);
 								(o.onload = () => {
-									e && 1 === e.getState() && "youtube" === t.type && o.contentWindow?.postMessage(JSON.stringify({ event: "listening", id: o.getAttribute("id") }), "*");
+									e &&
+										1 === e.getState() &&
+										"youtube" === t.type &&
+										o.contentWindow?.postMessage(
+											JSON.stringify({
+												event: "listening",
+												id: o.getAttribute("id"),
+											}),
+											"*"
+										);
 								}),
 									(o.onerror = () => {
 										e && 1 === e.getState() && e?.showError(t, "{{IFRAME_ERROR}}");
@@ -2878,7 +3293,12 @@
 										(t = "youtube" === e.type ? { event: "command", func: "playVideo" } : { method: "play", value: "true" }) && e.contentEl.contentWindow.postMessage(JSON.stringify(t), "*"), (e.poller = void 0);
 										return;
 									}
-									"youtube" === e.type && ((t = { event: "listening", id: e.contentEl.getAttribute("id") }), e.contentEl.contentWindow.postMessage(JSON.stringify(t), "*"));
+									"youtube" === e.type &&
+										((t = {
+											event: "listening",
+											id: e.contentEl.getAttribute("id"),
+										}),
+										e.contentEl.contentWindow.postMessage(JSON.stringify(t), "*"));
 								}
 								e.poller = setTimeout(n, 250);
 							};
@@ -2919,7 +3339,10 @@
 					},
 				};
 			},
-			eN = { autoStart: !1, btnTpl: '<button data-fullscreen-action="toggle" class="f-button" title="{{TOGGLE_FULLSCREEN}}"><svg><g><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></g><g><path d="M15 19v-2a2 2 0 0 1 2-2h2M15 5v2a2 2 0 0 0 2 2h2M5 15h2a2 2 0 0 1 2 2v2M5 9h2a2 2 0 0 0 2-2V5"/></g></svg></button>' },
+			eN = {
+				autoStart: !1,
+				btnTpl: '<button data-fullscreen-action="toggle" class="f-button" title="{{TOGGLE_FULLSCREEN}}"><svg><g><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></g><g><path d="M15 19v-2a2 2 0 0 1 2-2h2M15 5v2a2 2 0 0 0 2 2h2M5 15h2a2 2 0 0 1 2 2v2M5 9h2a2 2 0 0 0 2-2V5"/></g></svg></button>',
+			},
 			eq = "in-fullscreen-mode",
 			eB = () => {
 				let e;
@@ -3106,11 +3529,26 @@
 			(eQ.setup = function (e) {
 				!i && ((i = e), g() && (/complete|interactive|loaded/.test(document.readyState) ? eJ() : document.addEventListener("DOMContentLoaded", eJ)));
 			});
-		let e0 = { ...eu, CLOSE: "Close", NEXT: "Next", PREV: "Previous", MODAL: "You can close this modal content with the ESC key", ELEMENT_NOT_FOUND: "HTML Element Not Found", IFRAME_ERROR: "Error Loading Page" },
+		let e0 = {
+				...eu,
+				CLOSE: "Close",
+				NEXT: "Next",
+				PREV: "Previous",
+				MODAL: "You can close this modal content with the ESC key",
+				ELEMENT_NOT_FOUND: "HTML Element Not Found",
+				IFRAME_ERROR: "Error Loading Page",
+			},
 			e1 = '<button class="f-button" title="{{CLOSE}}" data-fancybox-close><svg><path d="M19.286 4.714 4.714 19.286M4.714 4.714l14.572 14.572" /></svg></button>';
 		ez().add("close", { tpl: e1 });
 		let e2 = (e) => {
-				e && e.dispatchEvent(new CustomEvent("animationend", { bubbles: !1, cancelable: !0, currentTarget: e }));
+				e &&
+					e.dispatchEvent(
+						new CustomEvent("animationend", {
+							bubbles: !1,
+							cancelable: !0,
+							currentTarget: e,
+						})
+					);
 			},
 			e5 = (e = null, t = "", n) => {
 				if (!e || !e.parentElement || !t) {
@@ -3139,7 +3577,17 @@
 				hideScrollbar: !0,
 				id: void 0,
 				idle: !1,
-				keyboard: { Escape: "close", Delete: "close", Backspace: "close", PageUp: "next", PageDown: "prev", ArrowUp: "prev", ArrowDown: "next", ArrowRight: "next", ArrowLeft: "prev" },
+				keyboard: {
+					Escape: "close",
+					Delete: "close",
+					Backspace: "close",
+					PageUp: "next",
+					PageDown: "prev",
+					ArrowUp: "prev",
+					ArrowDown: "next",
+					ArrowRight: "next",
+					ArrowLeft: "prev",
+				},
 				l10n: e0,
 				mainClass: "",
 				mainStyle: {},
@@ -3253,7 +3701,14 @@
 							r = o(a) || o(i) || void 0,
 							s = l.src || i.getAttribute("href") || i.getAttribute("currentSrc") || i.getAttribute("src") || void 0,
 							c = l.thumb || l.thumbSrc || r?.getAttribute("currentSrc") || r?.getAttribute("src") || r?.dataset.lazySrc || void 0,
-							u = { src: s, alt: l.alt || r?.getAttribute("alt") || void 0, thumbSrc: c, thumbEl: r, triggerEl: i, delegateEl: a };
+							u = {
+								src: s,
+								alt: l.alt || r?.getAttribute("alt") || void 0,
+								thumbSrc: c,
+								thumbEl: r,
+								triggerEl: i,
+								delegateEl: a,
+							};
 						for (let e in l) {
 							let t = l[e] + "";
 							(t = "false" !== t && ("true" === t || t)), (u[e] = t);
@@ -3445,7 +3900,22 @@
 										})
 										.on("pan", function (t) {
 											let n = t.srcEvent.target;
-											!(n && u(n)) && e?.getViewport() && "y" === t.axis && ((l += t.deltaY), a.spring({ clamp: !0, mass: 1, tension: 860, friction: 17, restDelta: 0.01, restSpeed: 0.01 }).from({ y: o }).to({ y: l }).start());
+											!(n && u(n)) &&
+												e?.getViewport() &&
+												"y" === t.axis &&
+												((l += t.deltaY),
+												a
+													.spring({
+														clamp: !0,
+														mass: 1,
+														tension: 860,
+														friction: 17,
+														restDelta: 0.01,
+														restSpeed: 0.01,
+													})
+													.from({ y: o })
+													.to({ y: l })
+													.start());
 										})
 										.on("end", function (e) {
 											a.pause(),
@@ -3453,14 +3923,25 @@
 													(0 !== l &&
 														((l = 0),
 														a
-															.spring({ clamp: !0, mass: 1, tension: 140, friction: 25, restDelta: 0.1, restSpeed: 0.1, maxSpeed: 1 / 0 })
+															.spring({
+																clamp: !0,
+																mass: 1,
+																tension: 140,
+																friction: 25,
+																restDelta: 0.1,
+																restSpeed: 0.1,
+																maxSpeed: 1 / 0,
+															})
 															.from({ y: o })
 															.to({ y: l })
 															.start()));
 										});
 								})(),
 								document.body.addEventListener("click", j),
-								document.body.addEventListener("keydown", V, { passive: !1, capture: !0 }),
+								document.body.addEventListener("keydown", V, {
+									passive: !1,
+									capture: !0,
+								}),
 								U();
 							let t = M("sync");
 							t && t.getTween()?.start();
@@ -3536,7 +4017,13 @@
 							if (n && o && i) {
 								let e = n.getScale("base") || 1,
 									{ x: t, y: l } = n.getMousemovePos(e) || { x: 0, y: 0 };
-								o.spring({ tension: 225, friction: 25, restDelta: 0.001, restSpeed: 0.001, maxSpeed: 1 / 0 })
+								o.spring({
+									tension: 225,
+									friction: 25,
+									restDelta: 0.001,
+									restSpeed: 0.001,
+									maxSpeed: 1 / 0,
+								})
 									.from(i)
 									.to({ x: t, y: l, scale: e })
 									.start();
@@ -3631,7 +4118,17 @@
 								e.getGestures()?.destroy(), e.getTween()?.pause();
 								let t = W(),
 									n = t?.panzoomRef;
-								for (let o of (t && n && f(n.getOptions(), { clickAction: !1, wheelAction: !1, bounds: !1, minScale: 0, maxScale: 1 / 0 }), e.getSlides())) o.panzoomRef?.getGestures()?.destroy(), o.panzoomRef?.getTween()?.pause();
+								for (let o of (t &&
+									n &&
+									f(n.getOptions(), {
+										clickAction: !1,
+										wheelAction: !1,
+										bounds: !1,
+										minScale: 0,
+										maxScale: 1 / 0,
+									}),
+								e.getSlides()))
+									o.panzoomRef?.getGestures()?.destroy(), o.panzoomRef?.getTween()?.pause();
 							}
 							let l = e?.getPlugins().fullscreen;
 							l && l.inFullscreen()
@@ -3647,7 +4144,13 @@
 							if ((T("close", t), M("placeFocusBack"))) {
 								var o;
 								let e = Z();
-								e && !((o = e.getBoundingClientRect()).bottom > 0 && o.right > 0 && o.left < (window.innerWidth || document.documentElement.clientWidth) && o.top < (window.innerHeight || document.documentElement.clientHeight)) && e.scrollIntoView({ behavior: "instant", block: "center", inline: "center" });
+								e &&
+									!((o = e.getBoundingClientRect()).bottom > 0 && o.right > 0 && o.left < (window.innerWidth || document.documentElement.clientWidth) && o.top < (window.innerHeight || document.documentElement.clientHeight)) &&
+									e.scrollIntoView({
+										behavior: "instant",
+										block: "center",
+										inline: "center",
+									});
 							}
 							M("fadeEffect") && (i?.classList.remove("is-ready"), i?.classList.add("is-hiding")), i?.classList.add("is-closing");
 							let l = W(),
@@ -3689,7 +4192,12 @@
 						}
 						function eo() {
 							if (g === e4.Destroyed) return;
-							(g = e4.Destroyed), document.body.removeEventListener("click", j), document.body.removeEventListener("keydown", V, { passive: !1, capture: !0 });
+							(g = e4.Destroyed),
+								document.body.removeEventListener("click", j),
+								document.body.removeEventListener("keydown", V, {
+									passive: !1,
+									capture: !0,
+								});
 							let t = Z();
 							for (let t of (T("destroy"), M("sync")?.getPlugins().Autoplay?.resume(), M("sync")?.getPlugins().Autoscroll?.resume(), o instanceof HTMLDialogElement && o.close(), e?.getContainer()?.classList.remove("is-idle"), e?.destroy(), Object.values(y))) t?.destroy();
 							if (((y = {}), o?.remove(), (o = void 0), (i = void 0), (e = void 0), e6.delete(v), !e6.size && (d(!1), document.documentElement.classList.remove(e8), M("placeFocusBack"))))
@@ -3731,7 +4239,10 @@
 											e6.set(v, ei),
 											T("init"),
 											(function () {
-												for (let [e, t] of Object.entries({ ...e9.Plugins, ...(p.plugins || {}) }))
+												for (let [e, t] of Object.entries({
+													...e9.Plugins,
+													...(p.plugins || {}),
+												}))
 													if (e && !y[e] && t instanceof Function) {
 														let n = t();
 														n.init(ei), (y[e] = n);
@@ -3802,17 +4313,48 @@
 															},
 														},
 														Fullscreen: { el: i },
-														Toolbar: { absolute: !0, display: { left: ["counter"], right: ["toggleFull", "autoplay", "fullscreen", "thumbs", "close"] } },
+														Toolbar: {
+															absolute: !0,
+															display: {
+																left: ["counter"],
+																right: ["toggleFull", "autoplay", "fullscreen", "thumbs", "close"],
+															},
+														},
 														Video: { autoplay: !0 },
-														Thumbs: { minCount: 2, Carousel: { classes: { container: "fancybox__thumbs" } } },
-														classes: { container: "fancybox__carousel", viewport: "fancybox__viewport", slide: "fancybox__slide" },
+														Thumbs: {
+															minCount: 2,
+															Carousel: {
+																classes: { container: "fancybox__thumbs" },
+															},
+														},
+														classes: {
+															container: "fancybox__carousel",
+															viewport: "fancybox__viewport",
+															slide: "fancybox__slide",
+														},
 														spinnerTpl: '<div class="f-spinner" data-fancybox-close></div>',
 														dragFree: !1,
 														slidesPerPage: 1,
-														plugins: { Sync: ew, Arrows: eR, Lazyload: eS, Zoomable: eb, Html: eD, Video: ej, Autoplay: eI, Fullscreen: eB, Thumbs: e_, Toolbar: ez },
+														plugins: {
+															Sync: ew,
+															Arrows: eR,
+															Lazyload: eS,
+															Zoomable: eb,
+															Html: eD,
+															Video: ej,
+															Autoplay: eI,
+															Fullscreen: eB,
+															Thumbs: e_,
+															Toolbar: ez,
+														},
 													},
 													M("Carousel") || {},
-													{ slides: b, enabled: !0, initialPage: M("startIndex") || 0, l10n: M("l10n") }
+													{
+														slides: b,
+														enabled: !0,
+														initialPage: M("startIndex") || 0,
+														l10n: M("l10n"),
+													}
 												);
 												T("initCarousel", (e = eh(c, t))),
 													e.on("*", (e, t, ...n) => {
