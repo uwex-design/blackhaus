@@ -7,12 +7,16 @@ const concat = require("gulp-concat");
 
 // Configuração das bibliotecas de terceiros
 const libsConfig = {
-	js: ["./src/js/lib/fancybox.js"],
+	js: [], // Adicione aqui os caminhos dos arquivos JS das bibliotecas quando necessário
 	css: ["./src/scss/lib/fancybox.scss"],
 };
 
 // Concatenar e minificar bibliotecas JS
-const buildLibsJs = () => {
+const buildLibsJs = (cb) => {
+	if (libsConfig.js.length === 0) {
+		console.log("⚠️  Nenhuma biblioteca JS configurada. Pulando buildLibsJs...");
+		return cb();
+	}
 	return src(libsConfig.js, { sourcemaps: true })
 		.pipe(concat("libs.js"))
 		.pipe(terser())
@@ -81,7 +85,12 @@ const watchFiles = () => {
 	watch("./src/scss/**/*.scss", scssToCss);
 	watch("./src/js/common.js", minifyCommonJs);
 	watch("./src/js/pages/*.js", minifyPagesJs);
-	watch(libsConfig.js, buildLibsJs);
+
+	// Só observa arquivos JS das libs se houver algum configurado
+	if (libsConfig.js.length > 0) {
+		watch(libsConfig.js, buildLibsJs);
+	}
+
 	watch(libsConfig.css, buildLibsCss);
 };
 
