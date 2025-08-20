@@ -15,6 +15,7 @@ class BlackHausGallery {
 			toolbar: ".f-carousel__toolbar",
 			thumbs: ".f-thumbs",
 			backdrop: ".fancybox__backdrop",
+			caption: ".f-caption",
 			nextButton: "[data-carousel-go-next], .f-button.is-arrow.is-next",
 			prevButton: "[data-carousel-go-prev], .f-button.is-arrow.is-prev",
 			closeButton: "[data-fancybox-close]",
@@ -39,6 +40,7 @@ class BlackHausGallery {
 				viewport: "-=0.1",
 				backdrop: "-=0.2",
 				toolbar: "-=0.2",
+				caption: "-=0.1",
 				nextButton: "-=0.2",
 				prevButton: "-=0.2",
 			},
@@ -171,6 +173,7 @@ class BlackHausGallery {
 			toolbar: document.querySelector(BlackHausGallery.CONFIG.selectors.toolbar),
 			thumbs: document.querySelector(BlackHausGallery.CONFIG.selectors.thumbs),
 			backdrop: document.querySelector(BlackHausGallery.CONFIG.selectors.backdrop),
+			caption: document.querySelector(BlackHausGallery.CONFIG.selectors.caption),
 			nextButton: document.querySelector(BlackHausGallery.CONFIG.selectors.nextButton),
 			prevButton: document.querySelector(BlackHausGallery.CONFIG.selectors.prevButton),
 		};
@@ -375,6 +378,20 @@ class BlackHausGallery {
 			visibility: "hidden",
 			ease: easings.out,
 		});
+
+		// 1.1. Fade-out do caption com movimento
+		if (elements.caption) {
+			timeline.to(
+				elements.caption,
+				{
+					duration: durations.toolbar,
+					opacity: 0,
+					y: 20,
+					ease: easings.out,
+				},
+				0 // Iniciar ao mesmo tempo que os outros controles
+			);
+		}
 
 		// 2. Fade-out do viewport
 		timeline.to(
@@ -590,6 +607,13 @@ class BlackHausGallery {
 				clipPath: "inset(0 0 100% 0)",
 			});
 		}
+
+		if (elements.caption) {
+			gsap.set(elements.caption, {
+				opacity: 0,
+				y: 20,
+			});
+		}
 	}
 
 	/**
@@ -652,6 +676,20 @@ class BlackHausGallery {
 					ease: easings.in,
 				},
 				offsets.toolbar
+			);
+		}
+
+		// 4. Caption fade-up
+		if (elements.caption) {
+			timeline.to(
+				elements.caption,
+				{
+					duration: durations.toolbar,
+					opacity: 1,
+					y: 0,
+					ease: easings.in,
+				},
+				offsets.caption
 			);
 		}
 

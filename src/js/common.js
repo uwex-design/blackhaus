@@ -8,7 +8,7 @@ const lenis = new Lenis({
 
 // Configuração para seções com rolagem mais lenta
 const slowScrollSections = [
-	//".section_intro",
+	//".section_intro", // substitua pelos seletores das suas seções
 	".section_about",
 ];
 
