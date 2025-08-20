@@ -2,7 +2,6 @@
  * BlackHaus Gallery - Sistema de galeria com animações customizadas
  * Utiliza Fancybox + GSAP para criar experiência visual aprimorada
  */
-
 class BlackHausGallery {
 	/**
 	 * Configurações padrão da galeria
@@ -20,6 +19,8 @@ class BlackHausGallery {
 			prevButton: "[data-carousel-go-prev], .f-button.is-arrow.is-prev",
 			closeButton: "[data-fancybox-close]",
 			galleryTrigger: "[data-fancybox]",
+			container: ".fancybox__container",
+			slide: ".fancybox__slide",
 		},
 
 		// Configurações de animação
@@ -29,18 +30,19 @@ class BlackHausGallery {
 				toolbar: 0.6,
 				viewport: 1,
 				backdrop: 1,
+				slide: 0.8,
 			},
 			// Easings
 			easings: {
-				in: "power2.in",
-				out: "power2.out",
+				in: "power2.out",
+				out: "power2.in",
 			},
 			// Offsets para sincronização
 			offsets: {
 				viewport: "-=0.1",
 				backdrop: "-=0.2",
 				toolbar: "-=0.2",
-				caption: "-=0.1",
+				caption: "+=0.3",
 				nextButton: "-=0.2",
 				prevButton: "-=0.2",
 			},
@@ -62,7 +64,7 @@ class BlackHausGallery {
 				"--f-button-svg-stroke-width": "1px",
 			},
 			hideScrollbar: true,
-			animated: false,
+			animated: false, // Desabilita animações padrão do Fancybox
 			showClass: false,
 			hideClass: false,
 			backdropClick: false, // Desativa o clique fora para fechar
@@ -95,6 +97,7 @@ class BlackHausGallery {
 		// Delays
 		delays: {
 			openAnimation: 50,
+			elementDetection: 100, // Delay para detectar elementos dinâmicos
 		},
 	};
 
@@ -103,9 +106,10 @@ class BlackHausGallery {
 	 */
 	constructor() {
 		this.isClosingWithAnimation = false;
+		this.isOpeningWithAnimation = false;
 		this.elementsCache = new Map();
-		this.mutationObserver = null;
-		this.arrowButtonTimer = null;
+		this.dynamicElementsAnimated = false;
+		this.currentFancyboxInstance = null;
 
 		this.init();
 	}
@@ -176,6 +180,7 @@ class BlackHausGallery {
 			caption: document.querySelector(BlackHausGallery.CONFIG.selectors.caption),
 			nextButton: document.querySelector(BlackHausGallery.CONFIG.selectors.nextButton),
 			prevButton: document.querySelector(BlackHausGallery.CONFIG.selectors.prevButton),
+			container: document.querySelector(BlackHausGallery.CONFIG.selectors.container),
 		};
 
 		this.elementsCache.set(cacheKey, elements);
@@ -190,131 +195,67 @@ class BlackHausGallery {
 	}
 
 	/**
-	 * Configura observer para detectar botões criados dinamicamente
+	 * Anima elementos dinâmicos quando o carousel está pronto
 	 */
-	setupMutationObserver() {
-		if (!this.mutationObserver) {
-			this.mutationObserver = new MutationObserver((mutations) => {
-				mutations.forEach((mutation) => {
-					mutation.addedNodes.forEach((node) => {
-						if (node.nodeType === Node.ELEMENT_NODE) {
-							// Verificar se é um botão de navegação (por atributo data)
-							if (node.matches && (node.matches("[data-carousel-go-next]") || node.matches("[data-carousel-go-prev]"))) {
-								node.style.setProperty("opacity", "0", "important");
-								node.style.setProperty("visibility", "hidden", "important");
-							}
-							// Verificar também por classes (backup)
-							if (node.matches && (node.matches(".f-button.is-arrow.is-next") || node.matches(".f-button.is-arrow.is-prev"))) {
-								node.style.setProperty("opacity", "0", "important");
-								node.style.setProperty("visibility", "hidden", "important");
-							}
-							// Verificar se o nó contém botões de navegação
-							if (node.querySelectorAll) {
-								const arrowButtonsByData = node.querySelectorAll("[data-carousel-go-next], [data-carousel-go-prev]");
-								const arrowButtonsByClass = node.querySelectorAll(".f-button.is-arrow.is-next, .f-button.is-arrow.is-prev");
-								const allButtons = [...arrowButtonsByData, ...arrowButtonsByClass];
-
-								allButtons.forEach((button) => {
-									button.style.setProperty("opacity", "0", "important");
-									button.style.setProperty("visibility", "hidden", "important");
-								});
-							}
-						}
-					});
-				});
-			});
-		}
-	}
-
-	/**
-	 * Inicia o observer para monitorar adições no DOM
-	 */
-	startMutationObserver() {
-		this.setupMutationObserver();
-		if (this.mutationObserver) {
-			this.mutationObserver.observe(document.body, {
-				childList: true,
-				subtree: true,
-			});
-		}
-	}
-
-	/**
-	 * Para o observer
-	 */
-	stopMutationObserver() {
-		if (this.mutationObserver) {
-			this.mutationObserver.disconnect();
-		}
-	}
-
-	/**
-	 * Verifica e oculta botões de navegação existentes
-	 */
-	hideExistingArrowButtons() {
-		const container = document.querySelector(".fancybox__container.blackhaus-animating");
-		if (container) {
-			// Buscar por atributos data
-			const buttonsByData = container.querySelectorAll("[data-carousel-go-next], [data-carousel-go-prev]");
-			// Buscar por classes (backup)
-			const buttonsByClass = container.querySelectorAll(".f-button.is-arrow.is-next, .f-button.is-arrow.is-prev");
-			// Combinar ambos
-			const existingButtons = [...buttonsByData, ...buttonsByClass];
-
-			existingButtons.forEach((button) => {
-				button.style.setProperty("opacity", "0", "important");
-				button.style.setProperty("visibility", "hidden", "important");
-			});
-		}
-	}
-
-	/**
-	 * Inicia timer para verificação periódica de botões
-	 */
-	startArrowButtonTimer() {
-		// Limpar timer existente
-		if (this.arrowButtonTimer) {
-			clearInterval(this.arrowButtonTimer);
+	animateDynamicElements() {
+		// Evitar múltiplas execuções
+		if (this.dynamicElementsAnimated) {
+			return;
 		}
 
-		let checks = 0;
-		const maxChecks = 10; // Verificar por 100ms (10 x 10ms)
+		// Aguardar um pouco para garantir que os elementos estejam prontos
+		setTimeout(() => {
+			const container = document.querySelector(BlackHausGallery.CONFIG.selectors.container);
+			if (!container) return;
 
-		this.arrowButtonTimer = setInterval(() => {
-			checks++;
-			const container = document.querySelector(".fancybox__container.blackhaus-animating");
+			const { durations, easings } = BlackHausGallery.CONFIG.animations;
 
-			if (container) {
-				// Buscar por atributos data e classes
-				const buttonsByData = container.querySelectorAll("[data-carousel-go-next], [data-carousel-go-prev]");
-				const buttonsByClass = container.querySelectorAll(".f-button.is-arrow.is-next, .f-button.is-arrow.is-prev");
-				const allButtons = [...buttonsByData, ...buttonsByClass];
+			// Buscar elementos dinâmicos dentro do container
+			const caption = container.querySelector(".f-caption");
+			const nextButton = container.querySelector(".f-button.is-arrow.is-next");
+			const prevButton = container.querySelector(".f-button.is-arrow.is-prev");
+			const closeButton = container.querySelector("[data-fancybox-close]");
+			const thumbs = container.querySelector(".f-thumbs");
 
-				allButtons.forEach((button) => {
-					const opacity = window.getComputedStyle(button).opacity;
-					if (opacity !== "0") {
-						button.style.setProperty("opacity", "0", "important");
-						button.style.setProperty("visibility", "hidden", "important");
-					}
+			// Marcar como animado
+			this.dynamicElementsAnimated = true;
+
+			// Animar caption (por último) - fade-up
+			if (caption) {
+				gsap.to(caption, {
+					duration: durations.toolbar,
+					opacity: 1,
+					y: 0,
+					visibility: "visible",
+					ease: easings.in,
+					delay: 0.2,
 				});
 			}
 
-			// Parar após maxChecks ou se não há mais container
-			if (checks >= maxChecks || !container) {
-				clearInterval(this.arrowButtonTimer);
-				this.arrowButtonTimer = null;
+			// Animar thumbs se existir
+			if (thumbs) {
+				gsap.to(thumbs, {
+					duration: durations.toolbar,
+					opacity: 1,
+					y: 0,
+					visibility: "visible",
+					ease: easings.in,
+					delay: 0.4,
+				});
 			}
-		}, 10);
-	}
 
-	/**
-	 * Para o timer de verificação de botões
-	 */
-	stopArrowButtonTimer() {
-		if (this.arrowButtonTimer) {
-			clearInterval(this.arrowButtonTimer);
-			this.arrowButtonTimer = null;
-		}
+			// Animar botões - fade-in
+			const buttons = [nextButton, prevButton, closeButton].filter(Boolean);
+			buttons.forEach((button, index) => {
+				gsap.to(button, {
+					duration: durations.toolbar * 0.5,
+					opacity: 1,
+					visibility: "visible",
+					ease: easings.in,
+					delay: 0.3 + index * 0.1,
+				});
+			});
+		}, BlackHausGallery.CONFIG.delays.elementDetection);
 	}
 
 	/**
@@ -372,7 +313,8 @@ class BlackHausGallery {
 		});
 
 		// 1. Fade-out dos controles (incluindo thumbs)
-		timeline.to([elements.toolbar, elements.thumbs, elements.nextButton, elements.prevButton], {
+		const controls = [elements.toolbar, elements.thumbs, elements.nextButton, elements.prevButton].filter(Boolean);
+		timeline.to(controls, {
 			duration: durations.toolbar,
 			opacity: 0,
 			visibility: "hidden",
@@ -423,6 +365,7 @@ class BlackHausGallery {
 	 */
 	onCloseAnimationComplete(fancyboxInstance) {
 		this.isClosingWithAnimation = false;
+		this.dynamicElementsAnimated = false; // Resetar flag para próxima abertura
 		this.clearElementsCache();
 
 		if (fancyboxInstance) {
@@ -556,22 +499,31 @@ class BlackHausGallery {
 	 * Anima a abertura do fancybox
 	 */
 	animateOpen() {
-		const elements = this.getElements(true); // Força refresh dos elementos
+		if (this.isOpeningWithAnimation) return;
 
-		if (!this.hasRequiredElements(elements)) {
-			console.warn("BlackHausGallery: Elementos não encontrados para animação de abertura");
-			return;
-		}
+		this.isOpeningWithAnimation = true;
 
-		// Verificar se o container está pronto
-		const container = document.querySelector(".fancybox__container");
-		if (!container) {
-			console.warn("BlackHausGallery: Container do Fancybox não encontrado");
-			return;
-		}
+		// Aguardar um pouco para garantir que o DOM esteja pronto
+		setTimeout(() => {
+			const elements = this.getElements(true); // Força refresh dos elementos
 
-		this.setInitialState(elements);
-		this.createOpenTimeline(elements, container);
+			if (!this.hasRequiredElements(elements)) {
+				console.warn("BlackHausGallery: Elementos não encontrados para animação de abertura");
+				this.isOpeningWithAnimation = false;
+				return;
+			}
+
+			// Verificar se o container está pronto
+			const container = document.querySelector(BlackHausGallery.CONFIG.selectors.container);
+			if (!container) {
+				console.warn("BlackHausGallery: Container do Fancybox não encontrado");
+				this.isOpeningWithAnimation = false;
+				return;
+			}
+
+			this.setInitialState(elements);
+			this.createOpenTimeline(elements, container);
+		}, BlackHausGallery.CONFIG.delays.openAnimation);
 	}
 
 	/**
@@ -579,14 +531,17 @@ class BlackHausGallery {
 	 * @param {Object} elements
 	 */
 	setInitialState(elements) {
+		// Dialog
 		if (elements.dialog) {
 			gsap.set(elements.dialog, { opacity: 0 });
 		}
 
+		// Backdrop
 		if (elements.backdrop) {
 			gsap.set(elements.backdrop, { y: "100%" });
 		}
 
+		// Toolbar
 		if (elements.toolbar) {
 			gsap.set(elements.toolbar, {
 				opacity: 0,
@@ -594,6 +549,16 @@ class BlackHausGallery {
 			});
 		}
 
+		// Thumbs
+		if (elements.thumbs) {
+			gsap.set(elements.thumbs, {
+				opacity: 0,
+				visibility: "hidden",
+				y: 20,
+			});
+		}
+
+		// Botões de navegação
 		if (elements.nextButton) {
 			gsap.set(elements.nextButton, { opacity: 0, visibility: "hidden" });
 		}
@@ -601,6 +566,7 @@ class BlackHausGallery {
 			gsap.set(elements.prevButton, { opacity: 0, visibility: "hidden" });
 		}
 
+		// Viewport
 		if (elements.viewport) {
 			gsap.set(elements.viewport, {
 				opacity: 0,
@@ -608,6 +574,7 @@ class BlackHausGallery {
 			});
 		}
 
+		// Caption
 		if (elements.caption) {
 			gsap.set(elements.caption, {
 				opacity: 0,
@@ -624,12 +591,9 @@ class BlackHausGallery {
 		const { durations, easings, offsets } = BlackHausGallery.CONFIG.animations;
 		const timeline = gsap.timeline({
 			onComplete: () => {
-				// Remove nossa classe personalizada para permitir funcionamento normal
-				if (container) {
-					container.classList.remove("blackhaus-animating");
-				}
-				// Parar timer de verificação
-				this.stopArrowButtonTimer();
+				this.isOpeningWithAnimation = false;
+				// Animar elementos dinâmicos após a abertura
+				this.animateDynamicElements();
 			},
 		});
 
@@ -676,53 +640,6 @@ class BlackHausGallery {
 					ease: easings.in,
 				},
 				offsets.toolbar
-			);
-		}
-
-		// 4. Caption fade-up
-		if (elements.caption) {
-			timeline.to(
-				elements.caption,
-				{
-					duration: durations.toolbar,
-					opacity: 1,
-					y: 0,
-					ease: easings.in,
-				},
-				offsets.caption
-			);
-		}
-
-		if (elements.nextButton) {
-			// Remover estilos inline aplicados pelo MutationObserver
-			elements.nextButton.style.opacity = "";
-			elements.nextButton.style.visibility = "";
-
-			timeline.to(
-				elements.nextButton,
-				{
-					duration: 0,
-					opacity: 1,
-					visibility: "visible",
-					ease: easings.in,
-				},
-				offsets.nextButton
-			);
-		}
-		if (elements.prevButton) {
-			// Remover estilos inline aplicados pelo MutationObserver
-			elements.prevButton.style.opacity = "";
-			elements.prevButton.style.visibility = "";
-
-			timeline.to(
-				elements.prevButton,
-				{
-					duration: 0,
-					opacity: 1,
-					visibility: "visible",
-					ease: easings.in,
-				},
-				offsets.prevButton
 			);
 		}
 	}
@@ -786,33 +703,6 @@ class BlackHausGallery {
 
 		// Interceptar tecla ESC
 		document.addEventListener("keydown", (e) => this.handleEscapeKey(e), true);
-
-		// Interceptar cliques nos triggers da galeria para aplicar classe preventivamente
-		document.addEventListener("click", (e) => {
-			const trigger = e.target.closest(BlackHausGallery.CONFIG.selectors.galleryTrigger);
-			if (trigger) {
-				// Iniciar MutationObserver imediatamente
-				this.startMutationObserver();
-
-				// Aplicar classe preventivamente com delays variados
-				setTimeout(() => {
-					const container = document.querySelector(".fancybox__container");
-					if (container) {
-						container.classList.add("blackhaus-animating");
-					}
-				}, 10);
-
-				setTimeout(() => {
-					const container = document.querySelector(".fancybox__container");
-					if (container && !container.classList.contains("blackhaus-animating")) {
-						container.classList.add("blackhaus-animating");
-					}
-				}, 50);
-
-				// Timer agressivo para detectar botões
-				this.startArrowButtonTimer();
-			}
-		});
 	}
 
 	/**
@@ -822,36 +712,28 @@ class BlackHausGallery {
 		const config = {
 			...BlackHausGallery.CONFIG.fancybox,
 			on: {
-				init: () => {
-					this.startMutationObserver();
-				},
-				reveal: () => {
-					// Aplicar classe imediatamente quando Fancybox começa a ser revelado
-					const container = document.querySelector(".fancybox__container");
-					if (container) {
-						container.classList.add("blackhaus-animating");
-					}
-
-					// Verificação agressiva por botões existentes
-					this.hideExistingArrowButtons();
-
-					// Timer de verificação para capturar botões que podem ser criados após o observer
-					this.startArrowButtonTimer();
-				},
-				initPlugins: () => {
-					// Plugins são inicializados, incluindo Arrows
-					setTimeout(() => {
-						this.hideExistingArrowButtons();
-					}, 10);
+				init: (fancybox) => {
+					// Armazenar instância atual
+					this.currentFancyboxInstance = fancybox;
 				},
 				ready: () => {
-					// Executar animação imediatamente quando pronto
+					// Executar animação quando Fancybox está pronto
 					this.animateOpen();
 				},
+				"Carousel.change": () => {
+					// Reset flag quando muda de slide para permitir nova animação
+					this.dynamicElementsAnimated = false;
+					setTimeout(() => {
+						this.animateDynamicElements();
+					}, 100);
+				},
 				destroy: () => {
-					// Parar observer e timer quando Fancybox é destruído
-					this.stopMutationObserver();
-					this.stopArrowButtonTimer();
+					// Resetar flags quando Fancybox é destruído
+					this.dynamicElementsAnimated = false;
+					this.isOpeningWithAnimation = false;
+					this.isClosingWithAnimation = false;
+					this.currentFancyboxInstance = null;
+					this.clearElementsCache();
 				},
 			},
 		};
@@ -879,10 +761,10 @@ class BlackHausGallery {
 	 */
 	destroy() {
 		this.clearElementsCache();
-		this.stopMutationObserver();
-		this.stopArrowButtonTimer();
-		this.mutationObserver = null;
-		this.arrowButtonTimer = null;
+		this.dynamicElementsAnimated = false;
+		this.isOpeningWithAnimation = false;
+		this.isClosingWithAnimation = false;
+		this.currentFancyboxInstance = null;
 		// Remove event listeners se necessário
 		// Fancybox.destroy() se disponível
 	}

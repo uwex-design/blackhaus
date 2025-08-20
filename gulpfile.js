@@ -7,7 +7,7 @@ const concat = require("gulp-concat");
 
 // Configuração das bibliotecas de terceiros
 const libsConfig = {
-	js: [], // Adicione aqui os caminhos dos arquivos JS das bibliotecas quando necessário
+	js: ["./src/js/lib/fancybox.js"], // Adicione aqui os caminhos dos arquivos JS das bibliotecas quando necessário
 	css: ["./src/scss/lib/fancybox.scss"],
 };
 

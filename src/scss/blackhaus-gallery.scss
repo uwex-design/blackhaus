@@ -1,54 +1,127 @@
 /* Animação personalizada do Fancybox */
-/* Ocultar elementos durante o estado inicial para evitar flash */
-.fancybox__container.blackhaus-animating .fancybox__dialog,
-.fancybox__container.blackhaus-animating .f-carousel__toolbar,
-.fancybox__container.blackhaus-animating .f-button.is-arrow.is-prev,
-.fancybox__container.blackhaus-animating .f-button.is-arrow.is-next,
-.fancybox__container.blackhaus-animating [data-carousel-go-prev],
-.fancybox__container.blackhaus-animating [data-carousel-go-next] {
-	opacity: 0 !important;
-	visibility: hidden !important;
+/* Estado inicial dos elementos dinâmicos para evitar flash */
+
+/* Desabilitar animações padrão do Fancybox */
+.fancybox__container {
+	--fancybox-transition-duration: 0s;
+	--fancybox-transition-timing-function: linear;
 }
 
+/* Estado inicial dos elementos dinâmicos */
+.f-caption {
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(20px);
+	transition: none; /* Desabilita transições CSS padrão */
+}
+
+.f-button.is-arrow.is-next,
+.f-button.is-arrow.is-prev,
+[data-fancybox-close] {
+	opacity: 0;
+	visibility: hidden;
+	transition: none; /* Desabilita transições CSS padrão */
+}
+
+/* Thumbs inicialmente ocultos */
+.f-thumbs {
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(20px);
+	transition: none; /* Desabilita transições CSS padrão */
+}
+
+/* Backdrop com transform-origin otimizado */
 .fancybox__backdrop {
 	transform-origin: center center;
 	will-change: transform, opacity;
+	transition: none; /* Desabilita transições CSS padrão */
 }
 
+/* Viewport otimizado para animações */
 .fancybox__viewport {
 	will-change: transform, opacity;
+	transition: none; /* Desabilita transições CSS padrão */
 }
+
+/* Slides com padding adequado */
 .fancybox__slide {
 	padding: 24px 0;
 }
 
+/* Toolbar otimizada */
 .f-carousel__toolbar {
 	will-change: transform, opacity;
 	height: 100%;
+	transition: none; /* Desabilita transições CSS padrão */
 }
+
 .f-carousel__toolbar__column.is-middle {
 	align-content: flex-end;
 	padding-bottom: 6px;
 }
+
+/* Thumbs com filtro grayscale */
 .f-thumbs__slide {
 	filter: grayscale(1);
 	transition: filter 0.4s ease-out;
 }
+
 .f-thumbs__slide.is-selected {
 	filter: grayscale(0);
 }
 
+/* Botão de toggle dos thumbs */
 [data-thumbs-action] {
 	transition: transform 0.6s ease;
 }
+
 [data-thumbs-action].is-active {
 	transform: rotate(180deg);
 }
 
+/* Caption posicionado */
 .f-caption {
 	position: absolute;
 	bottom: 40px;
 }
+
 .f-caption .gallery-grid_img-caption {
 	display: block;
+}
+
+/* Garantir que elementos estejam ocultos inicialmente */
+.fancybox__dialog {
+	opacity: 0;
+	transition: none; /* Desabilita transições CSS padrão */
+}
+
+/* Otimizações para performance */
+.fancybox__container * {
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+}
+
+/* Garantir que o container esteja pronto para animações */
+.fancybox__container.is-ready {
+	opacity: 1;
+}
+
+/* Estados de loading */
+.fancybox__container.is-loading .fancybox__viewport {
+	opacity: 0;
+}
+
+/* Garantir que botões de navegação estejam ocultos inicialmente */
+.f-button.is-arrow {
+	opacity: 0;
+	visibility: hidden;
+	transition: none;
+}
+
+/* Toolbar inicialmente oculta */
+.f-carousel__toolbar {
+	opacity: 0;
+	visibility: hidden;
+	transition: none;
 }
