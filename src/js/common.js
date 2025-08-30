@@ -1,45 +1,9 @@
 // LENIS
-// Initialize a new Lenis instance for smooth scrolling
 const lenis = new Lenis({
 	anchors: true,
 	lerp: 0.1,
+	wheelMultiplier: 1,
 	gestureOrientation: "vertical",
-});
-
-// Configuração para seções com rolagem mais lenta
-const slowScrollSections = [
-	//".section_intro", // substitua pelos seletores das suas seções
-	".section_about",
-];
-
-// Função para verificar se o usuário está em uma seção de rolagem lenta
-function isInSlowScrollSection() {
-	const scrollY = window.scrollY;
-	const windowHeight = window.innerHeight;
-	const currentViewportCenter = scrollY + windowHeight / 2;
-
-	for (let selector of slowScrollSections) {
-		const section = document.querySelector(selector);
-		if (section) {
-			const rect = section.getBoundingClientRect();
-			const sectionTop = scrollY + rect.top;
-			const sectionBottom = sectionTop + rect.height;
-
-			// Verifica se o centro da viewport está dentro da seção
-			if (currentViewportCenter >= sectionTop && currentViewportCenter <= sectionBottom) {
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
-// Modifica a velocidade da rolagem baseada na seção atual
-lenis.on("virtual-scroll", (e) => {
-	if (isInSlowScrollSection()) {
-		e.deltaY *= 0.3;
-		e.deltaX *= 0.3;
-	}
 });
 
 // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
