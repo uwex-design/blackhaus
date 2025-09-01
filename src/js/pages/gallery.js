@@ -15,6 +15,7 @@ class BlackHausGallery {
 			thumbs: ".f-thumbs",
 			backdrop: ".fancybox__backdrop",
 			caption: ".f-caption",
+			activeSlideCaption: ".fancybox__slide.is-selected .f-caption",
 			nextButton: "[data-carousel-go-next], .f-button.is-arrow.is-next",
 			prevButton: "[data-carousel-go-prev], .f-button.is-arrow.is-prev",
 			closeButton: "[data-fancybox-close]",
@@ -171,16 +172,18 @@ class BlackHausGallery {
 			return this.elementsCache.get(cacheKey);
 		}
 
+		const containerEl = document.querySelector(BlackHausGallery.CONFIG.selectors.container);
+
 		const elements = {
 			dialog: document.querySelector(BlackHausGallery.CONFIG.selectors.dialog),
 			viewport: document.querySelector(BlackHausGallery.CONFIG.selectors.viewport),
 			toolbar: document.querySelector(BlackHausGallery.CONFIG.selectors.toolbar),
 			thumbs: document.querySelector(BlackHausGallery.CONFIG.selectors.thumbs),
 			backdrop: document.querySelector(BlackHausGallery.CONFIG.selectors.backdrop),
-			caption: document.querySelector(BlackHausGallery.CONFIG.selectors.caption),
+			caption: (containerEl && containerEl.querySelector(BlackHausGallery.CONFIG.selectors.activeSlideCaption)) || (containerEl && containerEl.querySelector(BlackHausGallery.CONFIG.selectors.caption)) || document.querySelector(BlackHausGallery.CONFIG.selectors.activeSlideCaption) || document.querySelector(BlackHausGallery.CONFIG.selectors.caption),
 			nextButton: document.querySelector(BlackHausGallery.CONFIG.selectors.nextButton),
 			prevButton: document.querySelector(BlackHausGallery.CONFIG.selectors.prevButton),
-			container: document.querySelector(BlackHausGallery.CONFIG.selectors.container),
+			container: containerEl,
 		};
 
 		this.elementsCache.set(cacheKey, elements);
@@ -211,7 +214,7 @@ class BlackHausGallery {
 			const { durations, easings } = BlackHausGallery.CONFIG.animations;
 
 			// Buscar elementos dinâmicos dentro do container
-			const caption = container.querySelector(".f-caption");
+			const caption = container.querySelector(BlackHausGallery.CONFIG.selectors.activeSlideCaption) || container.querySelector(BlackHausGallery.CONFIG.selectors.caption);
 			const nextButton = container.querySelector(".f-button.is-arrow.is-next");
 			const prevButton = container.querySelector(".f-button.is-arrow.is-prev");
 			const closeButton = container.querySelector("[data-fancybox-close]");
@@ -222,6 +225,8 @@ class BlackHausGallery {
 
 			// Animar caption (por último) - fade-up
 			if (caption) {
+				// Garantir estado inicial antes de animar (útil ao trocar de slide)
+				gsap.set(caption, { opacity: 0, y: 20, visibility: "visible" });
 				gsap.to(caption, {
 					duration: durations.toolbar,
 					opacity: 1,
